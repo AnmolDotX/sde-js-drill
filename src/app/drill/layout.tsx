@@ -21,6 +21,23 @@ export const metadata: Metadata = {
     url: "https://sde-js-drill.babacreates.in/drill",
     siteName: "SDE Drill",
     type: "website",
+    images: [
+      {
+        url: "https://sde-js-drill.babacreates.in/assets/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "SDE Drill Practice Dashboard & Technical Stepper",
+        type: "image/png",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SDE Drill Dashboard | Senior Technical Revision Engine",
+    description:
+      "Practice 58+ senior full-stack interview questions across Frontend, Node.js, CS Core, and AI Engineering with mental models and 30-90s pitch answers.",
+    images: ["https://sde-js-drill.babacreates.in/assets/og-image.png"],
+    creator: "@AnmolDotX",
   },
 };
 

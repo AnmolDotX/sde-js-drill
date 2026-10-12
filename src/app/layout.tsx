@@ -86,12 +86,22 @@ export const metadata: Metadata = {
     siteName: "SDE Drill",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: `${siteUrl}/assets/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: "SDE Drill — Full-Stack JavaScript & AI Interview Revision Playbook",
+        type: "image/png",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "SDE Drill — Full-Stack JavaScript & AI Interview Revision Playbook",
     description:
       "Targeted revision guide for senior JS/TS and AI Application Engineers. 58+ P0 topics with mental models, production code blueprints, and 30-90s pitch answers.",
+    images: [`${siteUrl}/assets/og-image.png`],
     creator: "@AnmolDotX",
   },
   robots: {
