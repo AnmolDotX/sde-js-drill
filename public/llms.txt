@@ -1,0 +1,69 @@
+# SDE Drill: Full-Stack JavaScript/TypeScript & AI Interview Revision Playbook
+
+> A high-yield, stage-wise revision curriculum engineered for senior Full-Stack, Frontend, Node.js, and AI Application Engineers preparing for top-tier technical interviews.
+
+## Overview
+- **Website**: https://sde-js-drill.vercel.app
+- **Interactive Practice**: https://sde-js-drill.vercel.app/drill
+- **Curriculum Scope**: 58+ curated technical questions across 5 specialized domains.
+- **Answer Format**: Every topic includes:
+  1. The Gist (plain English 2-sentence intuition)
+  2. How It Works (deep mental model, engine internals, specs)
+  3. Practical Code / Blueprint (copy-paste production code)
+  4. 30–90 Second Pitch (exact conversational answer for interviewers)
+  5. Critical Trade-offs & Gotchas
+  6. Deep Follow-Up Questions
+
+## Core Modules & Key Concepts
+
+### 1. Frontend & JavaScript Internals (Phase 1)
+- **Execution Context & Call Stack**: Global vs Function Execution Context, Creation vs Execution phases, Lexical Environment, Scope Chain resolution.
+- **Hoisting & Temporal Dead Zone (TDZ)**: `var` declaration hoisting vs `let`/`const` TDZ, function declarations vs expressions.
+- **Closures & Stale Closures**: Lexical scope preservation, heap garbage collection, React stale state traps in `useEffect` and `useCallback`.
+- **"this" Binding**: Implicit, explicit (`call`, `apply`, `bind`), `new` operator precedence, lexical arrow function resolution.
+- **Prototypes & Prototype Chain**: `[[Prototype]]`, `prototype` property, prototype pollution prevention via `Object.create(null)` or `Map`.
+- **Event Loop & Asynchrony**: Call Stack, V8 microtask queue (`Promise.then`, `queueMicrotask`, `MutationObserver`) draining before macrotask queue (`setTimeout`, `setImmediate`, I/O).
+- **Promise Combinators**: `Promise.all` (fail-fast), `Promise.allSettled` (independent results), `Promise.race` (first settler), `Promise.any` (first fulfilled with `AggregateError`).
+- **AbortController**: Clean request and event cancellation, abort signals in `fetch`, event listener cleanup.
+- **Debounce vs Throttle**: Trailing/leading edge timer debouncing vs interval rate throttling with timestamp delta checks.
+- **Custom Event Emitter**: Pub-Sub pattern, listeners array/set, memory leak prevention via unsubscribe returns.
+- **Deep Clone with Circular References**: `structuredClone` limitations, WeakMap recursive graph traversal.
+- **Currying & Composition**: Function arity reduction, unary pipeline composition (`compose` and `pipe`).
+- **Web Workers**: Off-thread compute, structured cloning message passing, `SharedArrayBuffer` memory boundaries.
+- **DOM Event Flow**: Capturing (trickling), target phase, bubbling, `stopPropagation()` vs `stopImmediatePropagation()`.
+- **Event Delegation**: Single parent listener, dynamic child handling, memory efficiency on large lists.
+- **Virtual DOM & React 19 Fiber**: Fiber nodes (units of work), render phase (interruptible concurrent work) vs commit phase (DOM mutation), React 19 Actions and `useTransition`.
+- **React Reconciliation & Keys**: Element diffing heuristics, stable keys preventing component unmount/remount churn.
+- **React Hooks Architecture**: Fiber memoized states linked list, hook order invariants.
+- **Core Web Vitals (CWV)**: Interaction to Next Paint (INP), Largest Contentful Paint (LCP), Cumulative Layout Shift (CLS), `requestIdleCallback`, `requestAnimationFrame`.
+- **Bundle Optimization**: Code splitting via `React.lazy` and dynamic `import()`, tree shaking with ES modules, side effects configuration.
+- **Frontend Security (XSS & CSRF)**: Contextual encoding, Content Security Policy (CSP), `SameSite=Lax/Strict` cookies, CSRF tokens.
+- **Service Workers & Offline PWA**: Install, activate, fetch lifecycle, stale-while-revalidate caching strategy.
+
+### 2. Backend, Node.js & Distributed Systems (Phase 2)
+- **Node.js Architecture & libuv**: Single-threaded JS runtime on V8 backed by libuv multi-threaded C library (thread pool: FS, crypto, DNS; epoll/kqueue event demultiplexing).
+- **Streams & Backpressure**: Readable, Writable, Transform, Duplex; `highWaterMark` buffer threshold, pausing reader on drain.
+- **API Idempotency**: `Idempotency-Key` header, distributed deduplication lock in Redis with TTL, cached transaction replay.
+- **Pagination**: Offset/Limit pagination (O(N) full scan bottleneck) vs Keyset/Cursor pagination (O(1) B-tree seek via indexed timestamp/ID).
+- **Rate Limiting Algorithms**: Token Bucket (allows bursts), Leaky Bucket (smooths outflow), Fixed Window, Sliding Window Log (precise Redis ZSET), Sliding Window Counter.
+- **JWT Authentication & Token Rotation**: Stateless short-lived access tokens (15m), stateful rotating refresh tokens with family tracking and reuse detection.
+- **Role-Based Access Control (RBAC)**: Roles, permissions mapping, hierarchical inheritance, bitwise permission masks.
+- **MongoDB Schema Design**: Embedding (atomic updates, 16MB document limit) vs Referencing (normalized, `$lookup` joins); compound and multikey index optimization.
+- **Database Indexing**: B-Tree vs LSM-Tree (Log-Structured Merge), covered queries, index selectivity.
+- **Redis Caching Patterns**: Cache-Aside, Write-Through, Write-Behind, Cache Avalanche (jittered TTL), Cache Breakdown (mutex lock), Cache Penetration (bloom filters).
+- **Distributed Locks with Redis**: Single-instance Redlock, UUID verification during release to prevent stale unlocking.
+- **Message Queues & Event Streaming**: BullMQ/RabbitMQ (task queues with acknowledgement) vs Apache Kafka (distributed replayable log with partition offsets).
+- **Microservices Sagas**: Orchestration (central controller) vs Choreography (event-driven), compensating transactions on failure.
+
+### 3. CS Core, Protocols & Database Internals (Phase 4)
+- **TCP 3-Way Handshake & Teardown**: SYN -> SYN-ACK -> ACK; FIN -> ACK -> FIN -> ACK; TIME_WAIT state.
+- **HTTP/1.1 vs HTTP/2 vs HTTP/3**: Head-of-line blocking, multiplexing over single TCP connection, QUIC protocol over UDP.
+- **ACID Database Transactions**: Atomicity (WAL), Consistency (invariants), Isolation (MVCC, Read Committed, Repeatable Read, Serializable), Durability (fsync).
+- **CAP Theorem & PACELC**: Consistency vs Availability under Partition; If partitioned choose A or C, Else latency (L) or consistency (C).
+- **Consistent Hashing**: Virtual nodes ring, minimal key migration on server addition/removal.
+
+### 4. AI Engineering & LLM Systems (Phase 5)
+- **LangGraph Multi-Agent Workflows**: State graphs, cyclic agent nodes, conditional edge routing, human-in-the-loop checkpoints.
+- **Retrieval-Augmented Generation (RAG)**: Chunking strategies, dense vector embeddings, BM25 keyword search, reciprocal rank fusion (RRF), cross-encoder re-ranking.
+- **Semantic Caching**: Cosine similarity threshold on prompt embeddings in vector stores (Qdrant/Pinecone/Redis) to bypass redundant LLM inference calls.
+- **LLM Streaming & Latency**: Server-Sent Events (SSE), Token-per-second, Time-to-First-Token (TTFT), speculative decoding, prompt caching.
