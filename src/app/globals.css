@@ -1,20 +1,20 @@
 @import "tailwindcss";
 
 :root {
-  --bg-main: #323437;
-  --bg-card: #2c2e31;
-  --bg-sub: #252729;
-  --bg-hover: #383a3e;
-  --text-main: #d1d0c5;
-  --text-muted: #646669;
-  --text-sub: #908e82;
-  --accent: #e2b714;
-  --accent-hover: #eec429;
-  --accent-subtle: rgba(226, 183, 20, 0.12);
-  --border: #3e4145;
-  --border-subtle: #2f3235;
-  --success: #98c379;
-  --danger: #ca4754;
+  --bg-main: #090a0c;
+  --bg-card: #111316;
+  --bg-card-inner: #16181c;
+  --bg-subtle: #1a1d22;
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  --accent: #f59e0b;
+  --accent-light: #fbbf24;
+  --accent-subtle: rgba(245, 158, 11, 0.1);
+  --border-shell: rgba(255, 255, 255, 0.08);
+  --border-inner: rgba(255, 255, 255, 0.05);
+  --success: #10b981;
+  --danger: #ef4444;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
@@ -30,29 +30,90 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom scrollbars matching Monkeytype palette */
+/* Custom scrollbars */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-main);
+  background: #090a0c;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 4px;
+  background: #23272d;
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
+  background: #393f49;
 }
 
-/* Code block formatting */
-pre, code {
+/* Prism syntax highlighting theme overrides for dark mode */
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #e2e8f0;
   font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  direction: ltr;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  tab-size: 2;
+  hyphens: none;
 }
 
-/* Focus styles */
-*:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #64748b;
+  font-style: italic;
+}
+
+.token.punctuation {
+  color: #94a3b8;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: #f59e0b;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+  color: #34d399;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+  color: #38bdf8;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: #c084fc;
+}
+
+.token.function,
+.token.class-name {
+  color: #60a5fa;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+  color: #fb923c;
 }

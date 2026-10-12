@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 
 interface ResumeCompanionProps {
   isOpen: boolean;
@@ -8,38 +8,38 @@ interface ResumeCompanionProps {
 }
 
 export function ResumeCompanion({ isOpen, onClose }: ResumeCompanionProps) {
-  const [zoomLevel, setZoomLevel] = useState<number>(100);
   const resumeUrl = '/assets/AnmolSDE1_3October.pdf';
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-y-0 right-0 z-50 w-full md:w-[540px] lg:w-[620px] bg-[#2c2e31] border-l border-[#3e4145] shadow-2xl flex flex-col">
+    <div className="fixed inset-y-0 right-0 z-50 w-full md:w-[560px] lg:w-[640px] bg-[#0c0e11] border-l border-white/[0.08] shadow-[0_0_50px_rgba(0,0,0,0.8)] flex flex-col backdrop-blur-2xl">
       {/* Companion Header */}
-      <div className="flex items-center justify-between px-4 py-3 bg-[#242628] border-b border-[#3e4145]">
-        <div className="flex items-center space-x-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-[#e2b714]" />
-          <h2 className="text-sm font-semibold text-[#d1d0c5] tracking-wide">
+      <div className="flex items-center justify-between px-5 py-4 bg-[#121417] border-b border-white/[0.06]">
+        <div className="flex items-center space-x-2.5">
+          <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
+          <h3 className="text-sm font-semibold text-neutral-100 tracking-wide font-sans">
             Resume Companion (Anmol SDE)
-          </h2>
-          <span className="text-xs px-2 py-0.5 rounded bg-[#323437] text-[#908e82] border border-[#3e4145]">
-            PDF
+          </h3>
+          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/[0.04] text-neutral-400 border border-white/[0.06]">
+            PDF Live View
           </span>
         </div>
-        
+
         <div className="flex items-center space-x-2">
           <a
             href={resumeUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs text-[#908e82] hover:text-[#e2b714] px-2 py-1 rounded hover:bg-[#323437] transition-colors"
-            title="Open in new browser tab"
+            className="text-xs font-mono text-neutral-400 hover:text-amber-400 px-2.5 py-1 rounded-lg hover:bg-white/[0.04] border border-white/[0.06] transition-colors"
+            title="Open PDF in new tab"
           >
             Open Tab ↗
           </a>
           <button
+            type="button"
             onClick={onClose}
-            className="text-xs text-[#908e82] hover:text-[#d1d0c5] px-2 py-1 rounded hover:bg-[#323437] transition-colors"
+            className="text-xs font-mono text-neutral-400 hover:text-neutral-100 px-2.5 py-1 rounded-lg hover:bg-white/[0.04] border border-white/[0.06] transition-colors cursor-pointer"
             title="Close companion"
           >
             ✕ Close
@@ -48,23 +48,23 @@ export function ResumeCompanion({ isOpen, onClose }: ResumeCompanionProps) {
       </div>
 
       {/* Quick Resume Anchors Navigation */}
-      <div className="px-4 py-2 bg-[#282a2d] border-b border-[#3e4145] flex items-center justify-between text-xs text-[#908e82]">
-        <span className="font-mono text-[11px] text-[#e2b714]">Key Resume Anchors:</span>
-        <div className="flex space-x-2 overflow-x-auto">
-          <span className="px-1.5 py-0.5 rounded bg-[#323437] border border-[#3e4145] text-[#d1d0c5]">
-            Flipkart (BFF & Maps)
+      <div className="px-5 py-2.5 bg-[#14161a] border-b border-white/[0.04] flex items-center justify-between text-xs">
+        <span className="font-mono text-[11px] text-amber-400 font-medium">Quick Anchors:</span>
+        <div className="flex gap-2 overflow-x-auto scrollbar-none">
+          <span className="px-2 py-0.5 rounded-md bg-white/[0.03] border border-white/[0.06] text-neutral-300 font-mono text-[11px]">
+            Flipkart (PAN / Maps)
           </span>
-          <span className="px-1.5 py-0.5 rounded bg-[#323437] border border-[#3e4145] text-[#d1d0c5]">
+          <span className="px-2 py-0.5 rounded-md bg-white/[0.03] border border-white/[0.06] text-neutral-300 font-mono text-[11px]">
             Probo (L1-L3 Engine)
           </span>
-          <span className="px-1.5 py-0.5 rounded bg-[#323437] border border-[#3e4145] text-[#d1d0c5]">
-            Zarasana (CLI & Tokens)
+          <span className="px-2 py-0.5 rounded-md bg-white/[0.03] border border-white/[0.06] text-neutral-300 font-mono text-[11px]">
+            Zarasana (CLI Tokens)
           </span>
         </div>
       </div>
 
       {/* Embedded PDF Viewer */}
-      <div className="flex-1 bg-[#1e2022] overflow-hidden relative">
+      <div className="flex-1 bg-[#090a0c] overflow-hidden relative">
         <iframe
           src={`${resumeUrl}#toolbar=0&navpanes=0`}
           className="w-full h-full border-0"
@@ -72,10 +72,10 @@ export function ResumeCompanion({ isOpen, onClose }: ResumeCompanionProps) {
         />
       </div>
 
-      {/* Companion Footer Tip */}
-      <div className="px-4 py-2.5 bg-[#242628] border-t border-[#3e4145] text-xs text-[#646669] flex justify-between items-center">
-        <span>Use side-by-side to cross-reference Phase 3 questions.</span>
-        <span className="font-mono text-[11px] text-[#908e82]">public/assets/AnmolSDE1_3October.pdf</span>
+      {/* Footer Info */}
+      <div className="px-5 py-3 bg-[#121417] border-t border-white/[0.06] text-[11px] text-neutral-500 font-mono flex justify-between items-center">
+        <span>Cross-reference your bullet points while revising Phase 3.</span>
+        <span className="text-neutral-400">AnmolSDE1_3October.pdf</span>
       </div>
     </div>
   );

@@ -20,64 +20,65 @@ export function Navbar({
   const percent = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
 
   return (
-    <header className="sticky top-0 z-40 bg-[#2c2e31]/95 backdrop-blur-md border-b border-[#3e4145]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
-        {/* Brand & Tagline */}
-        <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 rounded bg-[#242628] border border-[#3e4145] flex items-center justify-center font-mono font-bold text-[#e2b714] text-sm">
+    <header className="sticky top-0 z-40 bg-[#090a0c]/90 backdrop-blur-xl border-b border-white/[0.06]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-4 flex flex-wrap items-center justify-between gap-4">
+        {/* Brand & Identity */}
+        <div className="flex items-center space-x-3.5">
+          <div className="w-9 h-9 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center font-mono font-bold text-amber-400 text-sm shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)]">
             &gt;_
           </div>
           <div>
-            <h1 className="text-base font-bold tracking-tight text-[#d1d0c5] flex items-center gap-2">
+            <h1 className="text-base font-bold tracking-tight text-neutral-100 flex items-center gap-2">
               <span>SDE DRILL</span>
-              <span className="text-[10px] font-mono font-normal px-2 py-0.5 rounded bg-[#242628] text-[#e2b714] border border-[#3e4145]">
+              <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-amber-400/10 text-amber-400 border border-amber-400/20">
                 Full-Stack &amp; AI Engineer
               </span>
             </h1>
-            <p className="text-xs text-[#646669]">
-              Strategic Interview Revision · LocalStorage Tracked
+            <p className="text-xs text-neutral-400">
+              Strategic Interview Revision Engine · Browser Local Storage
             </p>
           </div>
         </div>
 
-        {/* Global Progress Pill */}
-        <div className="flex items-center gap-3">
+        {/* Global Progress & Actions */}
+        <div className="flex items-center gap-4">
+          {/* Progress Indicator */}
           <div className="hidden sm:flex flex-col items-end">
-            <span className="text-xs font-mono text-[#d1d0c5] font-medium">
-              {completedCount} of {totalCount} topics completed
+            <span className="text-xs font-mono text-neutral-300 font-medium">
+              {completedCount} of {totalCount} completed ({percent}%)
             </span>
-            <div className="w-40 h-2 bg-[#242628] rounded-full overflow-hidden border border-[#3e4145] mt-1">
+            <div className="w-48 h-1.5 bg-neutral-900 rounded-full overflow-hidden border border-white/[0.06] mt-1.5">
               <div
-                className="h-full bg-[#e2b714] transition-all duration-300"
+                className="h-full bg-amber-400 transition-all duration-300 ease-out"
                 style={{ width: `${percent}%` }}
               />
             </div>
           </div>
 
-          <div className="sm:hidden font-mono text-xs text-[#e2b714] font-semibold bg-[#242628] px-2.5 py-1 rounded border border-[#3e4145]">
+          <div className="sm:hidden font-mono text-xs text-amber-400 font-medium bg-white/[0.04] px-2.5 py-1 rounded-lg border border-white/[0.08]">
             {percent}% ({completedCount}/{totalCount})
           </div>
 
           {/* Action Buttons */}
           <div className="flex items-center gap-2">
+            {/* Resume PDF Button (Button-in-Button Pattern) */}
             <button
               type="button"
               onClick={onResumeClick}
-              className="px-3 py-1.5 rounded text-xs font-mono font-medium bg-[#242628] hover:bg-[#383a3e] text-[#e2b714] border border-[#3e4145] transition-colors flex items-center gap-1.5 cursor-pointer"
-              title="Open side-by-side Resume Companion PDF"
+              className="group pl-3 pr-2 py-1.5 rounded-full text-xs font-mono font-medium bg-white/[0.04] hover:bg-white/[0.08] text-neutral-200 border border-white/[0.08] hover:border-amber-400/40 transition-colors flex items-center gap-2 cursor-pointer shadow-xs"
+              title="Open Resume PDF companion"
             >
-              <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                <polyline points="14 2 14 8 20 8" />
-              </svg>
               <span>Resume PDF</span>
+              <span className="w-5 h-5 rounded-full bg-amber-400/20 text-amber-400 flex items-center justify-center text-[10px] group-hover:scale-110 transition-transform">
+                ↗
+              </span>
             </button>
 
             <button
               type="button"
               onClick={onExportClick}
-              className="px-2.5 py-1.5 rounded text-xs font-mono bg-[#242628] hover:bg-[#383a3e] text-[#908e82] hover:text-[#d1d0c5] border border-[#3e4145] transition-colors cursor-pointer"
-              title="Export progress backup JSON"
+              className="px-3 py-1.5 rounded-full text-xs font-mono bg-white/[0.03] hover:bg-white/[0.06] text-neutral-400 hover:text-neutral-200 border border-white/[0.06] transition-colors cursor-pointer"
+              title="Export progress backup"
             >
               Export
             </button>
@@ -85,7 +86,7 @@ export function Navbar({
             <button
               type="button"
               onClick={onResetClick}
-              className="px-2.5 py-1.5 rounded text-xs font-mono bg-[#242628] hover:bg-[#383a3e] text-[#ca4754] border border-[#3e4145] transition-colors cursor-pointer"
+              className="px-3 py-1.5 rounded-full text-xs font-mono bg-white/[0.03] hover:bg-rose-500/10 text-neutral-400 hover:text-rose-400 border border-white/[0.06] hover:border-rose-500/20 transition-colors cursor-pointer"
               title="Reset progress"
             >
               Reset
