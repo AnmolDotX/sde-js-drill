@@ -25,6 +25,7 @@ export function CuratedResourcesSection({ phaseId }: CuratedResourcesSectionProp
       'phase-1-frontend': 'Frontend & Machine Coding Resources',
       'phase-2-backend': 'Backend & System Design Deep Dives',
       'phase-3-resume': 'Real-World Production Architecture Guides',
+      'phase-3-ai-resume': 'AI Agent Frameworks & Resume Parsing Architectures',
       'phase-4-core-cs': 'Core CS, Databases & Networking Specifications',
       'phase-5-ai-eng': 'AI Engineering, Multi-Agent & RAG Resources',
     };

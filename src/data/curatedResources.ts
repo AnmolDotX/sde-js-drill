@@ -118,6 +118,36 @@ export const CURATED_PHASE_RESOURCES: Record<PhaseId, ResourceLink[]> = {
     },
   ],
 
+  'phase-3-ai-resume': [
+    {
+      title: 'LangChain & LangGraph Official Documentation',
+      source: 'LangChain',
+      url: 'https://langchain-ai.github.io/langgraph/',
+      description:
+        'Master stateful multi-agent architectures, cyclic graphs, checkpointing, human-in-the-loop workflows, and multi-actor communication.',
+      badge: 'Agent Framework',
+      tags: ['LangGraph', 'Multi-Agent', 'State Management'],
+    },
+    {
+      title: 'Unstructured.io: High-Performance PDF/Docx Parsing',
+      source: 'Unstructured',
+      url: 'https://unstructured.io',
+      description:
+        'Industry-standard document processing library for stripping and segmenting resumes, tables, and technical documents for LLM ingestion.',
+      badge: 'Document Parsing',
+      tags: ['Document Ingestion', 'PDF Parsing', 'Preprocessing'],
+    },
+    {
+      title: 'Anthropic Prompt Engineering & Agent Best Practices',
+      source: 'Anthropic Research',
+      url: 'https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview',
+      description:
+        'Structured prompt chains, evaluator-optimizer loops, and test-driven prompt iterations for generating high-fidelity interview evaluations.',
+      badge: 'Prompt Architecture',
+      tags: ['Evaluator-Optimizer', 'Few-Shot', 'Agent Loops'],
+    },
+  ],
+
   'phase-4-core-cs': [
     {
       title: 'Designing Data-Intensive Applications (DDIA Notes)',

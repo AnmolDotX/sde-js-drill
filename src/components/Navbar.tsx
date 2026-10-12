@@ -9,7 +9,7 @@ interface NavbarProps {
   completedCount?: number;
   totalCount?: number;
   onResumeClick?: () => void;
-  onExportClick?: () => void;
+  showResumePdf?: boolean;
   onResetClick?: () => void;
 }
 
@@ -17,19 +17,18 @@ export function Navbar({
   completedCount = 0,
   totalCount = 0,
   onResumeClick,
-  onExportClick,
+  showResumePdf = false,
   onResetClick,
 }: NavbarProps) {
-  const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
   const percent = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
 
   return (
     <header className="sticky top-0 z-40 bg-[var(--bg-main)]/90 backdrop-blur-xl border-b border-[var(--border-shell)] transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
-        {/* Brand & Nav Links */}
-        <div className="flex items-center space-x-6">
-          <Link href="/" className="flex items-center space-x-3 group">
+        {/* Brand Link (Clicking logo goes to /) */}
+        <div className="flex items-center space-x-4">
+          <Link href="/" className="flex items-center space-x-3 group cursor-pointer" title="Back to Overview">
             <div className="w-8 h-8 rounded-xl bg-[var(--bg-card)] border border-[var(--border-shell)] flex items-center justify-center font-mono text-[var(--accent)] text-xs font-medium group-hover:border-[var(--accent)] transition-colors shadow-xs">
               &gt;_
             </div>
@@ -42,31 +41,6 @@ export function Navbar({
               </div>
             </div>
           </Link>
-
-          {/* Navigation Links */}
-          <nav className="hidden md:flex items-center space-x-1 text-xs font-mono">
-            <Link
-              href="/"
-              className={`px-3 py-1.5 rounded-lg transition-colors font-normal ${
-                pathname === '/'
-                  ? 'bg-[var(--bg-card)] text-[var(--text-main)] font-medium border border-[var(--border-shell)]'
-                  : 'text-[var(--text-muted)] hover:text-[var(--text-main)]'
-              }`}
-            >
-              Overview
-            </Link>
-            <Link
-              href="/drill"
-              className={`px-3 py-1.5 rounded-lg transition-colors font-normal flex items-center gap-1.5 ${
-                pathname === '/drill'
-                  ? 'bg-[var(--bg-card)] text-[var(--accent)] font-medium border border-[var(--border-shell)]'
-                  : 'text-[var(--text-muted)] hover:text-[var(--text-main)]'
-              }`}
-            >
-              <span>Practice Dashboard</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]" />
-            </Link>
-          </nav>
         </div>
 
         {/* Right Actions: Progress, Theme Toggle & Controls */}
@@ -118,8 +92,8 @@ export function Navbar({
             )}
           </button>
 
-          {/* Resume PDF Button */}
-          {onResumeClick && (
+          {/* Resume PDF Button (Only visible if showResumePdf is true) */}
+          {showResumePdf && onResumeClick && (
             <button
               type="button"
               onClick={onResumeClick}
@@ -131,18 +105,7 @@ export function Navbar({
             </button>
           )}
 
-          {/* Export / Reset Actions */}
-          {onExportClick && (
-            <button
-              type="button"
-              onClick={onExportClick}
-              className="px-2.5 py-1.5 rounded-xl text-xs font-mono bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-main)] border border-[var(--border-shell)] transition-colors cursor-pointer font-normal"
-              title="Export progress backup"
-            >
-              Export
-            </button>
-          )}
-
+          {/* Reset Action */}
           {onResetClick && (
             <button
               type="button"

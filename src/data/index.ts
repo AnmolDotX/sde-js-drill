@@ -8,6 +8,28 @@ import { phase5Topics } from './phases/phase5-ai-eng';
 export * from './types';
 export { phase1Topics, phase2Topics, phase3Topics, phase4Topics, phase5Topics };
 
+export const ANMOL_RESUME_PHASE: PhaseMetadata = {
+  id: 'phase-3-resume',
+  number: 3,
+  title: 'Resume Deep Dive (Flipkart, Probo, Zarasana)',
+  shortTitle: 'Resume Deep Dive',
+  description:
+    'Personalized technical stories: Flipkart PAN verification BFF & live tracking map, Probo L1-L3 approval engine & Postgres optimization, Zarasana CLI component library.',
+  badge: 'Phase 3 · Admin Personalized',
+  color: '#e2b714',
+};
+
+export const AI_RESUME_COMING_SOON_PHASE: PhaseMetadata = {
+  id: 'phase-3-ai-resume',
+  number: 3,
+  title: 'Personalized Resume Drill (AI Grilling Engine)',
+  shortTitle: 'AI Resume Drill',
+  description:
+    'Upcoming LangChain & LangGraph multi-agent pipeline that parses your uploaded resume and generates targeted scenario questions anchored to your real projects and scale.',
+  badge: 'Phase 3 · Coming Soon',
+  color: '#8b5cf6',
+};
+
 export const ALL_PHASES: PhaseMetadata[] = [
   {
     id: 'phase-1-frontend',
@@ -30,16 +52,7 @@ export const ALL_PHASES: PhaseMetadata[] = [
     badge: 'Phase 2',
     color: '#d1d0c5',
   },
-  {
-    id: 'phase-3-resume',
-    number: 3,
-    title: 'Resume Deep Dive (Flipkart, Probo, Zarasana)',
-    shortTitle: 'Resume Deep Dive',
-    description:
-      'Personalized technical stories: Flipkart PAN verification BFF & live tracking map, Probo L1-L3 approval engine & Postgres optimization, Zarasana CLI component library.',
-    badge: 'Phase 3 · Personalized',
-    color: '#e2b714',
-  },
+  AI_RESUME_COMING_SOON_PHASE,
   {
     id: 'phase-4-core-cs',
     number: 4,
@@ -62,6 +75,16 @@ export const ALL_PHASES: PhaseMetadata[] = [
   },
 ];
 
+export function getActivePhases(forResumeOfAnmol: boolean = false): PhaseMetadata[] {
+  return [
+    ALL_PHASES[0], // Phase 1 Frontend
+    ALL_PHASES[1], // Phase 2 Backend
+    forResumeOfAnmol ? ANMOL_RESUME_PHASE : AI_RESUME_COMING_SOON_PHASE,
+    ALL_PHASES[3], // Phase 4 CS Core
+    ALL_PHASES[4], // Phase 5 AI Engineering
+  ];
+}
+
 export const ALL_TOPICS: TopicItem[] = [
   ...phase1Topics,
   ...phase2Topics,
@@ -69,6 +92,16 @@ export const ALL_TOPICS: TopicItem[] = [
   ...phase4Topics,
   ...phase5Topics,
 ];
+
+export function getActiveTopics(forResumeOfAnmol: boolean = false): TopicItem[] {
+  return [
+    ...phase1Topics,
+    ...phase2Topics,
+    ...(forResumeOfAnmol ? phase3Topics : []),
+    ...phase4Topics,
+    ...phase5Topics,
+  ];
+}
 
 export function getTopicsByPhase(phaseId: string): TopicItem[] {
   return ALL_TOPICS.filter((t) => t.phase === phaseId);

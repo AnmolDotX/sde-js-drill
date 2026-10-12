@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { PhaseMetadata } from '../data/types';
 
 interface FilterBarProps {
@@ -35,6 +35,18 @@ export function FilterBar({
   totalResults,
 }: FilterBarProps) {
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setIsCategoryOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -152,28 +164,85 @@ export function FilterBar({
                 : 'bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-main)] border border-[var(--border-shell)] hover:border-[var(--accent)]/40'
             }`}
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]" />
+            <span
+              className={`w-1.5 h-1.5 rounded-full ${
+                phase.id === 'phase-3-ai-resume' ? 'bg-purple-500' : 'bg-[var(--accent)]'
+              }`}
+            />
             <span>{phase.shortTitle}</span>
+            {phase.id === 'phase-3-ai-resume' && (
+              <span className="text-[9px] px-1.5 py-0.2 rounded bg-purple-500/15 text-purple-600 dark:text-purple-300 font-mono font-medium">
+                Soon
+              </span>
+            )}
           </button>
         ))}
       </div>
 
-      {/* Category Dropdown Filter */}
+      {/* Category Custom Dropdown Filter */}
       {categories.length > 0 && (
-        <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-dim)]">
+        <div className="relative inline-flex items-center gap-2 text-xs font-mono text-[var(--text-dim)]" ref={dropdownRef}>
           <span>Filter by Category:</span>
-          <select
-            value={categoryFilter}
-            onChange={(e) => onCategoryFilterChange(e.target.value)}
-            className="bg-[var(--bg-card)] text-[var(--text-main)] border border-[var(--border-shell)] rounded-lg px-3 py-1.5 text-xs font-mono focus:border-[var(--accent)] focus:outline-none cursor-pointer font-normal"
-          >
-            <option value="all">All Categories ({categories.length})</option>
-            {categories.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setIsCategoryOpen(!isCategoryOpen)}
+              className="bg-[var(--bg-card)] hover:bg-[var(--bg-card-inner)] text-[var(--text-main)] border border-[var(--border-shell)] hover:border-[var(--accent)]/50 rounded-xl px-3 py-1.5 text-xs font-mono transition-colors cursor-pointer flex items-center gap-2 shadow-2xs font-normal"
+            >
+              <span>{categoryFilter === 'all' ? `All Categories (${categories.length})` : categoryFilter}</span>
+              <svg
+                className={`w-3.5 h-3.5 text-[var(--text-dim)] transition-transform duration-200 ${
+                  isCategoryOpen ? 'rotate-180 text-[var(--accent)]' : ''
+                }`}
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </button>
+
+            {/* Custom Popover Menu */}
+            {isCategoryOpen && (
+              <div className="absolute top-full left-0 mt-1.5 min-w-[220px] max-w-[300px] max-h-60 overflow-y-auto rounded-2xl bg-[var(--bg-card)] border border-[var(--border-shell)] shadow-[var(--card-shadow)] p-1.5 z-50 space-y-0.5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    onCategoryFilterChange('all');
+                    setIsCategoryOpen(false);
+                  }}
+                  className={`w-full text-left px-3 py-2 rounded-xl text-xs font-mono transition-colors flex items-center justify-between cursor-pointer ${
+                    categoryFilter === 'all'
+                      ? 'bg-[var(--bg-card-inner)] text-[var(--accent)] font-medium'
+                      : 'text-[var(--text-muted)] hover:bg-[var(--bg-card-inner)] hover:text-[var(--text-main)] font-normal'
+                  }`}
+                >
+                  <span>All Categories ({categories.length})</span>
+                  {categoryFilter === 'all' && <span className="text-[var(--accent)]">✓</span>}
+                </button>
+
+                {categories.map((c) => (
+                  <button
+                    key={c}
+                    type="button"
+                    onClick={() => {
+                      onCategoryFilterChange(c);
+                      setIsCategoryOpen(false);
+                    }}
+                    className={`w-full text-left px-3 py-2 rounded-xl text-xs font-mono transition-colors flex items-center justify-between cursor-pointer ${
+                      categoryFilter === c
+                        ? 'bg-[var(--bg-card-inner)] text-[var(--accent)] font-medium'
+                        : 'text-[var(--text-muted)] hover:bg-[var(--bg-card-inner)] hover:text-[var(--text-main)] font-normal'
+                    }`}
+                  >
+                    <span className="truncate pr-2">{c}</span>
+                    {categoryFilter === c && <span className="text-[var(--accent)] shrink-0">✓</span>}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>

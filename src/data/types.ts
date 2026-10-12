@@ -2,6 +2,7 @@ export type PhaseId =
   | 'phase-1-frontend'
   | 'phase-2-backend'
   | 'phase-3-resume'
+  | 'phase-3-ai-resume'
   | 'phase-4-core-cs'
   | 'phase-5-ai-eng';
 
