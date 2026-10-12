@@ -3,8 +3,8 @@
 > A high-yield, stage-wise revision curriculum engineered for senior Full-Stack, Frontend, Node.js, and AI Application Engineers preparing for top-tier technical interviews.
 
 ## Overview
-- **Website**: https://sde-js-drill.vercel.app
-- **Interactive Practice**: https://sde-js-drill.vercel.app/drill
+- **Website**: https://sde-js-drill.babacreates.in
+- **Interactive Practice**: https://sde-js-drill.babacreates.in/drill
 - **Curriculum Scope**: 58+ curated technical questions across 5 specialized domains.
 - **Answer Format**: Every topic includes:
   1. The Gist (plain English 2-sentence intuition)

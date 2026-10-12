@@ -1,17 +1,24 @@
-import { MetadataRoute } from 'next';
+import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://sde-js-drill.vercel.app';
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://sde-js-drill.babacreates.in";
 
   return {
     rules: [
       {
-        userAgent: '*',
-        allow: '/',
+        userAgent: "*",
+        allow: "/",
       },
       {
-        userAgent: ['GPTBot', 'ChatGPT-User', 'ClaudeBot', 'PerplexityBot', 'Google-Extended'],
-        allow: '/',
+        userAgent: [
+          "GPTBot",
+          "ChatGPT-User",
+          "ClaudeBot",
+          "PerplexityBot",
+          "Google-Extended",
+        ],
+        allow: "/",
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,

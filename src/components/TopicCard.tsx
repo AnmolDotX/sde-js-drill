@@ -1,9 +1,22 @@
 'use client';
 
 import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
 import { TopicItem } from '../data/types';
 import { CodeBlock } from './CodeBlock';
-import { MermaidViewer } from './MermaidViewer';
+
+// Lazy-load Mermaid to prevent 3MB+ parsing on initial page load / LCP
+const MermaidViewer = dynamic(
+  () => import('./MermaidViewer').then((mod) => mod.MermaidViewer),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="p-4 rounded-xl bg-[#0c0e10] border border-white/[0.08] text-xs font-mono text-[var(--text-dim)] animate-pulse">
+        Loading architecture diagram...
+      </div>
+    ),
+  }
+);
 
 interface TopicCardProps {
   topic: TopicItem;
@@ -32,6 +45,11 @@ export function TopicCard({
 }: TopicCardProps) {
   const [noteText, setNoteText] = useState(savedNote);
   const [isCopiedPitch, setIsCopiedPitch] = useState(false);
+  const [hasBeenExpanded, setHasBeenExpanded] = useState(isExpanded);
+
+  if (isExpanded && !hasBeenExpanded) {
+    setHasBeenExpanded(true);
+  }
 
   const handleCopyPitch = () => {
     navigator.clipboard.writeText(topic.interviewAnswer);
@@ -42,7 +60,7 @@ export function TopicCard({
   return (
     <article
       id={`topic-${topic.id}`}
-      className={`scroll-mt-4 rounded-2xl transition-all duration-200 border border-[var(--border-inner)] shadow-[var(--card-shadow)] ${
+      className={`scroll-mt-4 rounded-2xl transition-all duration-200 border border-[var(--border-inner)] shadow-[var(--card-shadow)] [content-visibility:auto] [contain-intrinsic-size:0_105px] ${
         isFocused ? 'bg-[var(--bg-card-inner)] shadow-sm' : ''
       } ${
         isCompleted
@@ -163,7 +181,8 @@ export function TopicCard({
           }`}
         >
           <div className="overflow-hidden">
-            <div className="pt-5 border-t border-[var(--border-inner)] space-y-7 text-sm">
+            {hasBeenExpanded && (
+              <div className="pt-5 border-t border-[var(--border-inner)] space-y-7 text-sm">
             {/* 1. The Gist */}
             <div className="space-y-2">
               <div className="flex items-center gap-2">
@@ -326,8 +345,9 @@ export function TopicCard({
               />
             </div>
           </div>
-        </div>
+        )}
       </div>
+    </div>
     </div>
   </article>
   );
