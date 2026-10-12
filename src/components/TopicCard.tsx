@@ -42,7 +42,7 @@ export function TopicCard({
   return (
     <article
       id={`topic-${topic.id}`}
-      className={`scroll-mt-4 rounded-2xl transition-all duration-200 shadow-[var(--card-shadow)] ${
+      className={`scroll-mt-4 rounded-2xl transition-all duration-200 border border-[var(--border-inner)] shadow-[var(--card-shadow)] ${
         isFocused ? 'bg-[var(--bg-card-inner)] shadow-sm' : ''
       } ${
         isCompleted
@@ -51,7 +51,7 @@ export function TopicCard({
       }`}
     >
       {/* Inner Container */}
-      <div className="p-5 sm:p-6 space-y-4">
+      <div className="p-4 sm:p-5 space-y-3.5">
         {/* Card Header Bar */}
         <div className="flex items-start justify-between gap-4">
           {/* Left: Checkbox & Info */}
@@ -81,7 +81,7 @@ export function TopicCard({
               <div className="flex flex-wrap items-center gap-2 mb-1.5">
                 {/* Priority Pill */}
                 <span
-                  className={`text-[11px] font-mono font-semibold px-2 py-0.5 rounded-full ${
+                  className={`text-[11px] font-mono font-medium px-2.5 py-0.5 rounded-full ${
                     topic.priority === 'P0'
                       ? 'bg-amber-500/15 text-amber-700 dark:text-amber-300'
                       : 'bg-[var(--bg-subtle)] text-[var(--text-muted)]'
@@ -90,8 +90,8 @@ export function TopicCard({
                   {topic.priority === 'P0' ? 'P0 MUST KNOW' : 'P1 HIGH'}
                 </span>
 
-                {/* Category Pill with tasteful Teal/Orange accent */}
-                <span className="text-[11px] font-mono text-[var(--text-dim)] px-2 py-0.5 rounded-md bg-[var(--bg-card-inner)]">
+                {/* Category Pill */}
+                <span className="text-[11px] font-mono text-[var(--text-dim)] px-2.5 py-0.5 rounded-md bg-[var(--bg-card-inner)]">
                   {topic.category}
                 </span>
 
@@ -105,7 +105,7 @@ export function TopicCard({
               {/* Title */}
               <h4
                 onClick={onToggleExpand}
-                className={`text-base sm:text-lg font-medium cursor-pointer transition-colors leading-snug ${
+                className={`text-[17px] sm:text-lg font-medium cursor-pointer transition-colors leading-snug tracking-tight ${
                   isCompleted
                     ? 'line-through text-[var(--text-dim)]'
                     : 'text-[var(--text-main)] hover:text-[var(--accent)]'
@@ -115,7 +115,7 @@ export function TopicCard({
               </h4>
 
               {topic.subtitle && (
-                <p className="text-xs text-[var(--text-dim)] mt-1 font-normal leading-relaxed">
+                <p className="text-sm sm:text-[14px] text-[var(--text-dim)] mt-1 font-normal leading-relaxed">
                   {topic.subtitle}
                 </p>
               )}
@@ -142,10 +142,10 @@ export function TopicCard({
             <button
               type="button"
               onClick={onToggleExpand}
-              className={`px-3 py-1.5 text-xs font-mono rounded-xl transition-colors cursor-pointer flex items-center gap-1.5 font-medium ${
+              className={`px-3 py-1.5 text-xs font-mono rounded-xl transition-all cursor-pointer flex items-center gap-1.5 font-medium ${
                 isExpanded
-                  ? 'bg-[var(--accent)] text-neutral-950'
-                  : 'bg-[var(--bg-card-inner)] hover:bg-[var(--bg-subtle)] text-[var(--text-muted)]'
+                  ? 'bg-[var(--accent)] text-neutral-950 shadow-xs'
+                  : 'bg-[var(--bg-card-inner)] hover:bg-[var(--bg-subtle)] text-[var(--text-muted)] hover:text-[var(--text-main)]'
               }`}
             >
               <span>{isExpanded ? 'Collapse' : 'Drill'}</span>
@@ -156,46 +156,46 @@ export function TopicCard({
 
         {/* Accordion Detail View with Smooth Transition */}
         <div
-          className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${
+          className={`grid transition-[grid-template-rows,opacity] duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] ${
             isExpanded
               ? 'grid-rows-[1fr] opacity-100'
               : 'grid-rows-[0fr] opacity-0 pointer-events-none'
           }`}
         >
           <div className="overflow-hidden">
-            <div className="pt-4 border-t border-[var(--border-inner)] space-y-6 text-sm">
+            <div className="pt-5 border-t border-[var(--border-inner)] space-y-7 text-sm">
             {/* 1. The Gist */}
-            <div className="space-y-1.5">
+            <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-                <h5 className="text-[11px] font-mono uppercase tracking-[0.15em] text-amber-600 dark:text-amber-400 font-semibold">
+                <h5 className="text-xs font-mono uppercase tracking-[0.14em] text-amber-600 dark:text-amber-400 font-medium">
                   1. The Gist (Plain English)
                 </h5>
               </div>
-              <p className="text-[var(--text-main)] leading-relaxed bg-[var(--bg-card-inner)] p-4 rounded-xl text-xs sm:text-sm font-normal">
+              <p className="text-[var(--text-main)] leading-relaxed bg-[var(--bg-card-inner)] p-4 sm:p-5 rounded-2xl text-[15px] sm:text-base font-normal">
                 {topic.theGist}
               </p>
             </div>
 
             {/* 2. How It Works */}
-            <div className="space-y-1.5">
+            <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-teal-500" />
-                <h5 className="text-[11px] font-mono uppercase tracking-[0.15em] text-teal-600 dark:text-teal-400 font-semibold">
+                <h5 className="text-xs font-mono uppercase tracking-[0.14em] text-teal-600 dark:text-teal-400 font-medium">
                   2. How It Works (Mental Model &amp; Internals)
                 </h5>
               </div>
-              <div className="text-[var(--text-main)] leading-relaxed text-xs sm:text-sm space-y-2 pl-3 border-l-2 border-teal-500/30 font-normal">
+              <div className="text-[var(--text-main)] leading-relaxed text-[15px] sm:text-base space-y-2 pl-4 border-l-2 border-teal-500/40 font-normal">
                 <p>{topic.howItWorks}</p>
               </div>
             </div>
 
             {/* 3. Practical Code Blueprint */}
             {topic.practicalExample && (
-              <div className="space-y-1.5">
+              <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                  <h5 className="text-[11px] font-mono uppercase tracking-[0.15em] text-emerald-600 dark:text-emerald-400 font-semibold">
+                  <h5 className="text-xs font-mono uppercase tracking-[0.14em] text-emerald-600 dark:text-emerald-400 font-medium">
                     3. Practical Code / Blueprint
                   </h5>
                 </div>
@@ -210,10 +210,10 @@ export function TopicCard({
 
             {/* 4. Mermaid Visual Specification (if present) */}
             {topic.diagramCode && (
-              <div className="space-y-1.5">
+              <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-orange-500" />
-                  <h5 className="text-[11px] font-mono uppercase tracking-[0.15em] text-orange-600 dark:text-orange-400 font-semibold">
+                  <h5 className="text-xs font-mono uppercase tracking-[0.14em] text-orange-600 dark:text-orange-400 font-medium">
                     4. Visual Diagram &amp; Flow
                   </h5>
                 </div>
@@ -226,37 +226,37 @@ export function TopicCard({
             )}
 
             {/* 5. 30-90s Interview-Ready Answer */}
-            <div className="space-y-1.5">
+            <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-                  <h5 className="text-[11px] font-mono uppercase tracking-[0.15em] text-amber-600 dark:text-amber-400 font-semibold">
+                  <h5 className="text-xs font-mono uppercase tracking-[0.14em] text-amber-600 dark:text-amber-400 font-medium">
                     5. Interview-Ready Answer (30–90 Second Pitch)
                   </h5>
                 </div>
                 <button
                   type="button"
                   onClick={handleCopyPitch}
-                  className="text-[11px] font-mono text-[var(--text-dim)] hover:text-[var(--accent)] px-2.5 py-1 rounded-lg bg-[var(--bg-card-inner)] hover:bg-[var(--bg-subtle)] cursor-pointer transition-colors font-medium"
+                  className="text-xs font-mono text-[var(--text-dim)] hover:text-[var(--accent)] px-3 py-1 rounded-lg bg-[var(--bg-card-inner)] hover:bg-[var(--bg-subtle)] cursor-pointer transition-colors font-medium"
                 >
                   {isCopiedPitch ? 'Copied Pitch ✓' : 'Copy Pitch'}
                 </button>
               </div>
-              <div className="border-l-3 border-amber-500 bg-[var(--bg-card-inner)] p-4 rounded-r-xl text-[var(--text-main)] leading-relaxed text-xs sm:text-sm italic font-normal">
-                "{topic.interviewAnswer}"
+              <div className="border-l-3 border-amber-500 bg-[var(--bg-card-inner)] p-4 sm:p-5 rounded-r-2xl text-[var(--text-main)] leading-relaxed text-[15px] sm:text-base italic font-normal">
+                &ldquo;{topic.interviewAnswer}&rdquo;
               </div>
             </div>
 
             {/* 6. Resume Connection */}
             {topic.resumeConnection && (
-              <div className="p-4 rounded-xl bg-teal-500/[0.05] dark:bg-teal-950/20 space-y-1">
+              <div className="p-4 sm:p-5 rounded-2xl bg-teal-500/[0.05] dark:bg-teal-950/20 space-y-1.5">
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-teal-500" />
-                  <h5 className="text-[11px] font-mono uppercase tracking-[0.15em] text-teal-700 dark:text-teal-300 font-semibold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-teal-500" />
+                  <h5 className="text-xs font-mono uppercase tracking-[0.14em] text-teal-700 dark:text-teal-300 font-medium">
                     Resume Connection &amp; Anchor
                   </h5>
                 </div>
-                <p className="text-xs sm:text-sm text-[var(--text-main)] leading-relaxed font-normal">
+                <p className="text-sm sm:text-base text-[var(--text-main)] leading-relaxed font-normal">
                   {topic.resumeConnection}
                 </p>
               </div>
@@ -264,17 +264,17 @@ export function TopicCard({
 
             {/* 7. Trade-offs & Gotchas */}
             {topic.tradeoffsAndGotchas && topic.tradeoffsAndGotchas.length > 0 && (
-              <div className="space-y-1.5">
+              <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
-                  <h5 className="text-[11px] font-mono uppercase tracking-[0.15em] text-rose-600 dark:text-rose-400 font-semibold">
+                  <h5 className="text-xs font-mono uppercase tracking-[0.14em] text-rose-600 dark:text-rose-400 font-medium">
                     6. Critical Trade-offs &amp; Pitfalls
                   </h5>
                 </div>
-                <ul className="space-y-2 bg-[var(--bg-card-inner)] p-4 rounded-xl text-xs text-[var(--text-main)]">
+                <ul className="space-y-2.5 bg-[var(--bg-card-inner)] p-4 sm:p-5 rounded-2xl text-sm sm:text-[15px] text-[var(--text-main)]">
                   {topic.tradeoffsAndGotchas.map((item, idx) => (
-                    <li key={idx} className="flex items-start gap-2 leading-relaxed font-normal">
-                      <span className="text-rose-500 font-mono text-sm leading-none">•</span>
+                    <li key={idx} className="flex items-start gap-2.5 leading-relaxed font-normal">
+                      <span className="text-rose-500 font-mono text-base leading-none">•</span>
                       <span>{item}</span>
                     </li>
                   ))}
@@ -284,17 +284,17 @@ export function TopicCard({
 
             {/* 8. Follow-Up Questions */}
             {topic.followUpQuestions && topic.followUpQuestions.length > 0 && (
-              <div className="space-y-1.5">
+              <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-[var(--text-dim)]" />
-                  <h5 className="text-[11px] font-mono uppercase tracking-[0.15em] text-[var(--text-dim)] font-semibold">
+                  <h5 className="text-xs font-mono uppercase tracking-[0.14em] text-[var(--text-dim)] font-medium">
                     7. Deep Follow-Up Questions to Rehearse
                   </h5>
                 </div>
-                <ul className="space-y-2 text-xs text-[var(--text-dim)] pl-3">
+                <ul className="space-y-2.5 text-sm sm:text-[15px] text-[var(--text-dim)] pl-3">
                   {topic.followUpQuestions.map((q, idx) => (
-                    <li key={idx} className="flex items-start gap-2 font-normal">
-                      <span className="text-[var(--accent)] font-mono font-medium">Q{idx + 1}.</span>
+                    <li key={idx} className="flex items-start gap-2.5 font-normal">
+                      <span className="text-[var(--accent)] font-mono font-medium shrink-0">Q{idx + 1}.</span>
                       <span className="leading-relaxed text-[var(--text-muted)]">{q}</span>
                     </li>
                   ))}
@@ -303,26 +303,26 @@ export function TopicCard({
             )}
 
             {/* 9. Personal Notes */}
-            <div className="pt-2 border-t border-[var(--border-inner)] space-y-1.5">
+            <div className="pt-3 border-t border-[var(--border-inner)] space-y-2">
               <div className="flex items-center justify-between">
                 <label
                   htmlFor={`note-${topic.id}`}
-                  className="text-xs font-mono text-[var(--text-dim)] font-normal"
+                  className="text-xs sm:text-sm font-mono text-[var(--text-dim)] font-normal"
                 >
                   Personal Revision Notes (Saved in Browser)
                 </label>
-                <span className="text-[10px] font-mono text-[var(--text-dim)]">Auto-saved</span>
+                <span className="text-xs font-mono text-[var(--text-dim)]">Auto-saved</span>
               </div>
               <textarea
                 id={`note-${topic.id}`}
-                rows={2}
+                rows={3}
                 value={noteText}
                 onChange={(e) => {
                   setNoteText(e.target.value);
                   onSaveNote(topic.id, e.target.value);
                 }}
                 placeholder="Jot down memory tricks, personal experiences, or reminders..."
-                className="w-full bg-[var(--bg-card-inner)] rounded-xl p-3 text-xs text-[var(--text-main)] placeholder-[var(--text-dim)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)] font-mono font-normal"
+                className="w-full bg-[var(--bg-card-inner)] rounded-2xl p-4 text-sm sm:text-base text-[var(--text-main)] placeholder-[var(--text-dim)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)] font-mono font-normal leading-relaxed"
               />
             </div>
           </div>

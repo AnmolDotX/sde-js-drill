@@ -25,7 +25,7 @@ export function Navbar({
 
   return (
     <header className="sticky top-0 z-40 bg-[var(--bg-main)]/90 backdrop-blur-xl border-b border-[var(--border-shell)] transition-colors">
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-4">
         {/* Brand Link (Clicking logo goes to /) */}
         <div className="flex items-center space-x-4">
           <Link href="/" className="flex items-center space-x-3 group cursor-pointer" title="Back to Overview">

@@ -25,7 +25,7 @@ export default function LandingPage() {
       />
 
       {/* Hero Section */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8 py-16 sm:py-24 space-y-24">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 space-y-24">
         {/* Hero Header */}
         <div className="max-w-4xl space-y-6">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[var(--bg-card)] shadow-xs text-xs font-mono text-[var(--accent)] font-medium">
@@ -185,7 +185,7 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="border-t border-[var(--border-inner)] bg-[var(--bg-card)] py-8 transition-colors">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--text-dim)] font-normal">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--text-dim)] font-normal">
           <div>
             <span>System Revision Playbook for Fullstack JS/TS Developers</span>
           </div>

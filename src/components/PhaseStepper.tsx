@@ -22,20 +22,20 @@ export function PhaseStepper({
   const progressPct = topics.length > 0 ? Math.round((completedCount / topics.length) * 100) : 0;
 
   return (
-    <aside className="w-full lg:w-80 shrink-0 lg:sticky lg:top-20">
-      <div className="rounded-2xl bg-[var(--bg-card)] p-4 shadow-[var(--card-shadow)] space-y-3.5 lg:h-[calc(100vh-6rem)] flex flex-col transition-colors">
+    <aside className="w-full lg:w-72 xl:w-80 shrink-0 lg:sticky lg:top-20 z-20">
+      <div className="rounded-2xl bg-[var(--bg-card)] p-4 shadow-[var(--card-shadow)] space-y-3.5 lg:max-h-[calc(100vh-6.5rem)] flex flex-col transition-colors border border-[var(--border-inner)]">
         {/* Stepper Header */}
         <div className="border-b border-[var(--border-inner)] pb-3 space-y-2 shrink-0">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-mono font-semibold text-[var(--text-dim)] uppercase tracking-wider">
+            <span className="text-[11px] font-mono font-medium text-[var(--text-dim)] uppercase tracking-wider">
               Track Stepper Index
             </span>
-            <span className="text-xs font-mono text-[var(--accent)] font-semibold">
+            <span className="text-xs font-mono text-[var(--accent)] font-medium">
               {completedCount}/{topics.length} ({progressPct}%)
             </span>
           </div>
 
-          <div className="w-full h-1.5 bg-[var(--bg-subtle)] rounded-full overflow-hidden">
+          <div className="w-full h-1 bg-[var(--bg-subtle)] rounded-full overflow-hidden">
             <div
               className="h-full bg-emerald-600 transition-all duration-300"
               style={{ width: `${progressPct}%` }}
@@ -44,14 +44,14 @@ export function PhaseStepper({
         </div>
 
         {/* Scrollable Topics List */}
-        <div className="flex-1 min-h-0 overflow-y-auto space-y-1 pr-1.5 scrollbar-thin">
+        <div className="flex-1 min-h-0 overflow-y-auto space-y-1.5 pr-1.5 scrollbar-thin">
           {topics.length === 0 ? (
-            <div className="py-8 px-3 text-center space-y-2">
+            <div className="py-10 px-3 text-center space-y-2">
               <span className="text-2xl block">⚡</span>
-              <p className="text-xs font-semibold text-[var(--text-main)]">
+              <p className="text-sm font-semibold text-[var(--text-main)]">
                 AI Roadmap Stage
               </p>
-              <p className="text-[11px] text-[var(--text-dim)] font-normal leading-relaxed">
+              <p className="text-xs text-[var(--text-muted)] font-normal leading-relaxed">
                 Resume parsing &amp; LangGraph agentic questioning pipeline in development.
               </p>
             </div>
@@ -74,7 +74,7 @@ export function PhaseStepper({
                 >
                 {/* Step Marker */}
                 <div
-                  className={`w-6 h-6 rounded-lg text-[10px] font-mono flex items-center justify-center shrink-0 mt-0.5 transition-colors font-medium ${
+                  className={`w-7 h-7 rounded-lg text-xs font-mono flex items-center justify-center shrink-0 mt-0.5 transition-colors font-medium ${
                     completed
                       ? 'bg-emerald-600 text-white shadow-xs'
                       : isActive
@@ -87,9 +87,9 @@ export function PhaseStepper({
 
                 {/* Topic Info */}
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-1.5 mb-0.5">
+                  <div className="flex items-start gap-1.5">
                     <span
-                      className={`text-[9px] font-mono font-semibold px-1.5 py-0.2 rounded ${
+                      className={`text-[10px] font-mono font-medium px-1.5 py-0.5 rounded shrink-0 mt-0.5 ${
                         topic.priority === 'P0'
                           ? 'bg-amber-500/15 text-amber-700 dark:text-amber-300'
                           : 'bg-[var(--bg-subtle)] text-[var(--text-dim)]'
@@ -97,19 +97,19 @@ export function PhaseStepper({
                     >
                       {topic.priority}
                     </span>
-                    {bookmarked && <span className="text-[10px] text-amber-500">★</span>}
+                    {bookmarked && <span className="text-xs text-amber-500 shrink-0 mt-0.5">★</span>}
+                    <p
+                      className={`text-xs sm:text-[13px] leading-snug line-clamp-2 flex-1 ${
+                        completed
+                          ? 'line-through text-[var(--text-dim)] font-normal'
+                          : isActive
+                          ? 'text-[var(--text-main)] font-medium'
+                          : 'text-[var(--text-muted)] font-normal group-hover:text-[var(--text-main)]'
+                      }`}
+                    >
+                      {topic.title}
+                    </p>
                   </div>
-                  <p
-                    className={`text-xs line-clamp-1 ${
-                      completed
-                        ? 'line-through text-[var(--text-dim)] font-normal'
-                        : isActive
-                        ? 'text-[var(--text-main)] font-semibold'
-                        : 'font-normal group-hover:text-[var(--text-main)]'
-                    }`}
-                  >
-                    {topic.title}
-                  </p>
                 </div>
               </button>
             );
@@ -117,7 +117,7 @@ export function PhaseStepper({
         </div>
 
         {/* Stepper Footer */}
-        <div className="pt-2 border-t border-[var(--border-inner)] text-[11px] font-mono text-[var(--text-dim)] flex items-center justify-between shrink-0">
+        <div className="pt-2.5 border-t border-[var(--border-inner)] text-[11px] font-mono text-[var(--text-dim)] flex items-center justify-between shrink-0">
           <span>Click to jump</span>
           <span className="text-[var(--accent)] font-medium">{topics.length} topics</span>
         </div>

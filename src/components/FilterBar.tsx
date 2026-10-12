@@ -94,14 +94,14 @@ export function FilterBar({
         </div>
 
         {/* Priority Filter */}
-        <div className="flex items-center gap-1.5 shrink-0 bg-[var(--bg-card)] p-1 rounded-xl border border-[var(--border-shell)]">
-          <span className="text-[11px] font-mono text-[var(--text-dim)] px-2">Priority:</span>
+        <div className="flex items-center gap-1.5 shrink-0 bg-[var(--bg-card)] p-1.5 rounded-xl border border-[var(--border-shell)]">
+          <span className="text-xs font-mono text-[var(--text-dim)] px-2">Priority:</span>
           {(['all', 'P0', 'P1'] as const).map((p) => (
             <button
               key={p}
               type="button"
               onClick={() => onPriorityFilterChange(p)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-colors cursor-pointer font-normal ${
+              className={`px-3 py-1.5 rounded-lg text-xs sm:text-sm font-mono transition-colors cursor-pointer font-normal ${
                 priorityFilter === p
                   ? 'bg-[var(--accent)] text-neutral-950 font-medium'
                   : 'text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--bg-subtle)]'
@@ -113,8 +113,8 @@ export function FilterBar({
         </div>
 
         {/* Status Filter */}
-        <div className="flex items-center gap-1.5 shrink-0 bg-[var(--bg-card)] p-1 rounded-xl border border-[var(--border-shell)]">
-          <span className="text-[11px] font-mono text-[var(--text-dim)] px-2">Status:</span>
+        <div className="flex items-center gap-1.5 shrink-0 bg-[var(--bg-card)] p-1.5 rounded-xl border border-[var(--border-shell)]">
+          <span className="text-xs font-mono text-[var(--text-dim)] px-2">Status:</span>
           {(
             [
               { id: 'all', label: 'All' },
@@ -127,7 +127,7 @@ export function FilterBar({
               key={s.id}
               type="button"
               onClick={() => onStatusFilterChange(s.id)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-colors cursor-pointer font-normal ${
+              className={`px-3 py-1.5 rounded-lg text-xs sm:text-sm font-mono transition-colors cursor-pointer font-normal ${
                 statusFilter === s.id
                   ? 'bg-[var(--bg-subtle)] text-[var(--accent)] font-medium border border-[var(--border-shell)]'
                   : 'text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--bg-subtle)]'
@@ -144,7 +144,7 @@ export function FilterBar({
         <button
           type="button"
           onClick={() => onSelectPhase('all')}
-          className={`px-4 py-2 rounded-xl text-xs font-mono whitespace-nowrap transition-all cursor-pointer font-normal ${
+          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-mono whitespace-nowrap transition-all cursor-pointer font-normal ${
             selectedPhase === 'all'
               ? 'bg-[var(--accent)] text-neutral-950 font-medium shadow-xs'
               : 'bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-main)] border border-[var(--border-shell)] hover:border-[var(--accent)]/40'
@@ -158,7 +158,7 @@ export function FilterBar({
             key={phase.id}
             type="button"
             onClick={() => onSelectPhase(phase.id)}
-            className={`px-4 py-2 rounded-xl text-xs font-mono whitespace-nowrap transition-all flex items-center gap-2 cursor-pointer font-normal ${
+            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-mono whitespace-nowrap transition-all flex items-center gap-2 cursor-pointer font-normal ${
               selectedPhase === phase.id
                 ? 'bg-[var(--bg-card)] text-[var(--accent)] font-medium border border-[var(--accent)] shadow-xs'
                 : 'bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-main)] border border-[var(--border-shell)] hover:border-[var(--accent)]/40'
@@ -171,7 +171,7 @@ export function FilterBar({
             />
             <span>{phase.shortTitle}</span>
             {phase.id === 'phase-3-ai-resume' && (
-              <span className="text-[9px] px-1.5 py-0.2 rounded bg-purple-500/15 text-purple-600 dark:text-purple-300 font-mono font-medium">
+              <span className="text-[10px] px-1.5 py-0.2 rounded bg-purple-500/15 text-purple-600 dark:text-purple-300 font-mono font-medium">
                 Soon
               </span>
             )}
@@ -181,13 +181,13 @@ export function FilterBar({
 
       {/* Category Custom Dropdown Filter */}
       {categories.length > 0 && (
-        <div className="relative inline-flex items-center gap-2 text-xs font-mono text-[var(--text-dim)]" ref={dropdownRef}>
+        <div className="relative inline-flex items-center gap-2.5 text-xs sm:text-sm font-mono text-[var(--text-dim)]" ref={dropdownRef}>
           <span>Filter by Category:</span>
           <div className="relative">
             <button
               type="button"
               onClick={() => setIsCategoryOpen(!isCategoryOpen)}
-              className="bg-[var(--bg-card)] hover:bg-[var(--bg-card-inner)] text-[var(--text-main)] border border-[var(--border-shell)] hover:border-[var(--accent)]/50 rounded-xl px-3 py-1.5 text-xs font-mono transition-colors cursor-pointer flex items-center gap-2 shadow-2xs font-normal"
+              className="bg-[var(--bg-card)] hover:bg-[var(--bg-card-inner)] text-[var(--text-main)] border border-[var(--border-shell)] hover:border-[var(--accent)]/50 rounded-xl px-3.5 py-1.5 text-xs sm:text-sm font-mono transition-colors cursor-pointer flex items-center gap-2 shadow-2xs font-normal"
             >
               <span>{categoryFilter === 'all' ? `All Categories (${categories.length})` : categoryFilter}</span>
               <svg

@@ -195,70 +195,6 @@ function DrillDashboardContent() {
           </div>
         )}
 
-        {/* Track Header Card */}
-        <div className="rounded-2xl bg-[var(--bg-card)] p-6 shadow-[var(--card-shadow)] flex flex-col md:flex-row md:items-center justify-between gap-5 transition-colors">
-          <div className="space-y-1.5 max-w-2xl">
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-[var(--bg-card-inner)] text-[var(--accent)]">
-                {currentPhaseMeta ? currentPhaseMeta.badge : 'All Tracks'}
-              </span>
-              <span className="text-xs text-[var(--text-dim)] font-mono">
-                {selectedPhase === 'all'
-                  ? `${activePhases.length} Active Tracks`
-                  : currentPhaseMeta?.shortTitle}
-              </span>
-            </div>
-            <h2 className="text-xl sm:text-2xl font-semibold text-[var(--text-main)] tracking-tight">
-              {currentPhaseMeta ? currentPhaseMeta.title : 'All Practice Tracks'}
-            </h2>
-            <p className="text-xs sm:text-sm text-[var(--text-dim)] font-normal leading-relaxed">
-              {currentPhaseMeta?.description}
-            </p>
-          </div>
-
-          {/* Metrics Pill (hidden on Coming Soon phase) */}
-          {!isComingSoonPhase && (
-            <div className="flex items-center gap-3 shrink-0">
-              <div className="bg-[var(--bg-card-inner)] px-4 py-3 rounded-xl text-center min-w-[110px] shadow-2xs">
-                <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-dim)] block font-medium">
-                  P0 MUST KNOW
-                </span>
-                <span className="text-lg font-mono font-semibold text-amber-600 dark:text-amber-400 mt-0.5 block">
-                  {p0CompletedCount}/{p0Count}
-                </span>
-              </div>
-
-              <div className="bg-[var(--bg-card-inner)] px-4 py-3 rounded-xl text-center min-w-[110px] shadow-2xs">
-                <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-dim)] block font-medium">
-                  TRACK DONE
-                </span>
-                <span className="text-lg font-mono font-semibold text-emerald-600 dark:text-emerald-400 mt-0.5 block">
-                  {stepperTopics.filter((t) => isCompleted(t.id)).length}/{stepperTopics.length}
-                </span>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Phase 3 Resume Alert Banner (only for Anmol's resume mode) */}
-        {forResumeOfAnmol && selectedPhase === 'phase-3-resume' && (
-          <div className="bg-teal-500/[0.06] dark:bg-teal-950/20 p-4 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
-            <div className="flex items-center gap-2.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-teal-500 shrink-0" />
-              <p className="text-xs text-[var(--text-main)] font-normal">
-                <span className="text-teal-700 dark:text-teal-300 font-semibold">Personalized Resume Anchor:</span> Flipkart PAN verification BFF, live map polylines, proxy inspector, and Probo L1-L3 approval engine.
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={() => setIsResumeOpen(true)}
-              className="px-3.5 py-1.5 text-xs font-mono font-medium rounded-xl bg-teal-600 text-white hover:bg-teal-700 transition-colors shrink-0 cursor-pointer shadow-xs"
-            >
-              Open Resume PDF Companion ↗
-            </button>
-          </div>
-        )}
-
         {/* Filter & Search Bar */}
         <FilterBar
           phases={activePhases}
@@ -281,6 +217,51 @@ function DrillDashboardContent() {
           totalResults={filteredTopics.length}
         />
 
+        {/* Editorial Track Header Banner (distinct identity spanning across the workspace) */}
+        <div className="border-b border-[var(--border-inner)] pb-5 pt-1 flex flex-col md:flex-row md:items-end justify-between gap-4 transition-colors">
+          <div className="space-y-1.5 max-w-2xl">
+            <div className="flex items-center gap-2">
+              <span className="text-[11px] font-mono font-medium px-2.5 py-0.5 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400">
+                {currentPhaseMeta ? currentPhaseMeta.badge : 'All Tracks'}
+              </span>
+              <span className="text-xs text-[var(--text-dim)] font-mono">
+                {selectedPhase === 'all'
+                  ? `${activePhases.length} Active Tracks`
+                  : currentPhaseMeta?.shortTitle}
+              </span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-medium text-[var(--text-main)] tracking-tight">
+              {currentPhaseMeta ? currentPhaseMeta.title : 'All Practice Tracks'}
+            </h2>
+            <p className="text-xs sm:text-sm text-[var(--text-muted)] font-normal leading-relaxed">
+              {currentPhaseMeta?.description}
+            </p>
+          </div>
+
+          {/* Minimal Metrics Strip (hidden on Coming Soon phase) */}
+          {!isComingSoonPhase && (
+            <div className="flex items-center gap-2.5 shrink-0">
+              <div className="bg-[var(--bg-card)] px-3.5 py-2 rounded-xl text-center min-w-[110px] border border-[var(--border-inner)] shadow-2xs">
+                <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-dim)] block font-medium">
+                  P0 MUST KNOW
+                </span>
+                <span className="text-lg sm:text-xl font-mono font-medium text-amber-600 dark:text-amber-400 mt-0.5 block">
+                  {p0CompletedCount}/{p0Count}
+                </span>
+              </div>
+
+              <div className="bg-[var(--bg-card)] px-3.5 py-2 rounded-xl text-center min-w-[110px] border border-[var(--border-inner)] shadow-2xs">
+                <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-dim)] block font-medium">
+                  TRACK DONE
+                </span>
+                <span className="text-lg sm:text-xl font-mono font-medium text-emerald-600 dark:text-emerald-400 mt-0.5 block">
+                  {stepperTopics.filter((t) => isCompleted(t.id)).length}/{stepperTopics.length}
+                </span>
+              </div>
+            </div>
+          )}
+        </div>
+
         {/* Two-Column Workspace: Stepper on Left, Content on Right */}
         <div className="flex flex-col lg:flex-row gap-6 items-start">
           {/* Left Sticky Stepper Navigator */}
@@ -292,10 +273,10 @@ function DrillDashboardContent() {
             isBookmarked={isBookmarked}
           />
 
-          {/* Right Topic Reader Container (Scrollable Subpart) */}
+          {/* Right Topic Reader Container */}
           <div
             id="questions-scroll-container"
-            className="flex-1 min-w-0 w-full lg:h-[calc(100vh-6rem)] lg:overflow-y-auto lg:pr-2.5 space-y-3.5 scrollbar-thin scroll-smooth"
+            className="flex-1 min-w-0 w-full space-y-3.5"
           >
             {isComingSoonPhase ? (
               /* Public Phase 3: AI Resume Grilling Engine Roadmap */
@@ -387,7 +368,7 @@ function DrillDashboardContent() {
 
       {/* Footer */}
       <footer className="mt-auto border-t border-[var(--border-inner)] bg-[var(--bg-card)] py-6 transition-colors">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[var(--text-dim)] font-normal">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[var(--text-dim)] font-normal">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-500" />
             <span>Progress automatically saved in browser local storage.</span>

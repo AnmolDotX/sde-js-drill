@@ -12,6 +12,11 @@ import 'prismjs/components/prism-bash';
 import 'prismjs/components/prism-json';
 import 'prismjs/components/prism-lua';
 
+// Prevent Prism from mutating the DOM automatically after SSR hydration
+if (typeof window !== 'undefined') {
+  Prism.manual = true;
+}
+
 interface CodeBlockProps {
   code: string;
   language?: string;
@@ -65,19 +70,19 @@ export function CodeBlock({ code, language = 'typescript', title, explanation }:
       <div className="flex items-center justify-between px-4 py-2.5 bg-[var(--code-header)] border-b border-[var(--border-inner)] text-xs">
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-amber-400 inline-block" />
-          <span className="font-mono text-neutral-300 text-xs font-normal tracking-wide">
+          <span className="font-mono text-neutral-200 text-xs sm:text-sm font-normal tracking-wide">
             {title || `${language.toUpperCase()} Blueprint`}
           </span>
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="font-mono text-[10px] uppercase text-neutral-400 bg-white/[0.05] px-2 py-0.5 rounded border border-white/[0.06]">
+          <span className="font-mono text-xs uppercase text-neutral-400 bg-white/[0.05] px-2.5 py-0.5 rounded border border-white/[0.06]">
             {language}
           </span>
           <button
             type="button"
             onClick={handleCopy}
-            className="font-mono text-xs text-neutral-400 hover:text-amber-400 bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.08] px-2.5 py-1 rounded-md transition-colors flex items-center gap-1.5 cursor-pointer font-normal"
+            className="font-mono text-xs text-neutral-300 hover:text-amber-400 bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.08] px-2.5 py-1 rounded-md transition-colors flex items-center gap-1.5 cursor-pointer font-normal"
           >
             {copied ? (
               <>
@@ -100,9 +105,10 @@ export function CodeBlock({ code, language = 'typescript', title, explanation }:
       </div>
 
       {/* Code Body with guaranteed HTML tokens */}
-      <div className="p-4 sm:p-5 overflow-x-auto text-xs font-mono leading-relaxed bg-[var(--code-bg)]">
-        <pre className="!m-0 !p-0 !bg-transparent whitespace-pre">
+      <div className="p-4 sm:p-5 overflow-x-auto text-sm sm:text-[15px] font-mono leading-relaxed bg-[var(--code-bg)]">
+        <pre suppressHydrationWarning className="!m-0 !p-0 !bg-transparent whitespace-pre">
           <code
+            suppressHydrationWarning
             className={`language-${prismLang} font-mono`}
             dangerouslySetInnerHTML={{ __html: highlightedHtml }}
           />
@@ -111,7 +117,7 @@ export function CodeBlock({ code, language = 'typescript', title, explanation }:
 
       {/* Optional Note */}
       {explanation && (
-        <div className="px-4 py-2.5 bg-[var(--code-header)] border-t border-[var(--border-inner)] text-xs text-neutral-400 font-sans leading-relaxed">
+        <div className="px-4 py-3 bg-[var(--code-header)] border-t border-[var(--border-inner)] text-sm text-neutral-300 font-sans leading-relaxed">
           <span className="text-amber-400 font-mono font-medium mr-1.5">Note:</span>
           {explanation}
         </div>
