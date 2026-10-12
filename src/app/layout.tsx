@@ -13,8 +13,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark bg-[#323437] text-[#d1d0c5]">
-      <body className="min-h-screen bg-[#323437] text-[#d1d0c5] antialiased selection:bg-[#e2b714] selection:text-[#1e2022]">
+    <html lang="en" className="dark" data-theme="dark" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                const savedTheme = localStorage.getItem('sde_drill_theme_v1') || 'dark';
+                document.documentElement.classList.remove('dark', 'light');
+                document.documentElement.classList.add(savedTheme);
+                document.documentElement.setAttribute('data-theme', savedTheme);
+              } catch (e) {}
+            `,
+          }}
+        />
+      </head>
+      <body className="min-h-screen bg-[var(--bg-main)] text-[var(--text-main)] antialiased selection:bg-[var(--accent)] selection:text-neutral-950 transition-colors duration-200">
         {children}
       </body>
     </html>

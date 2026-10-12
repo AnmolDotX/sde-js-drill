@@ -1,301 +1,199 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
-import { ALL_PHASES, ALL_TOPICS, TopicItem } from '../data';
+import React from 'react';
+import Link from 'next/link';
+import { ALL_PHASES, ALL_TOPICS } from '../data';
 import { useRevisionProgress } from '../hooks/useRevisionProgress';
 import { Navbar } from '../components/Navbar';
-import { FilterBar } from '../components/FilterBar';
-import { TopicCard } from '../components/TopicCard';
 import { ResumeCompanion } from '../components/ResumeCompanion';
-import { CuratedResourcesSection } from '../components/CuratedResourcesSection';
 
-export default function Home() {
-  const {
-    completedCount,
-    isCompleted,
-    toggleCompleted,
-    isBookmarked,
-    toggleBookmarked,
-    notes,
-    saveNote,
-    resetAllProgress,
-    exportBackup,
-  } = useRevisionProgress();
+export default function LandingPage() {
+  const { completedCount, isCompleted } = useRevisionProgress();
+  const [isResumeOpen, setIsResumeOpen] = React.useState(false);
 
-  const [selectedPhase, setSelectedPhase] = useState<string>('all');
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [statusFilter, setStatusFilter] = useState<'all' | 'unrevised' | 'revised' | 'bookmarked'>('all');
-  const [priorityFilter, setPriorityFilter] = useState<'all' | 'P0' | 'P1'>('all');
-  const [categoryFilter, setCategoryFilter] = useState<string>('all');
-  const [isResumeOpen, setIsResumeOpen] = useState<boolean>(false);
-
-  // Compute available categories for the active phase selection
-  const availableCategories = useMemo(() => {
-    const list = selectedPhase === 'all' 
-      ? ALL_TOPICS 
-      : ALL_TOPICS.filter((t) => t.phase === selectedPhase);
-    return Array.from(new Set(list.map((t) => t.category)));
-  }, [selectedPhase]);
-
-  // Filtered topics list
-  const filteredTopics = useMemo(() => {
-    return ALL_TOPICS.filter((topic) => {
-      // Phase Filter
-      if (selectedPhase !== 'all' && topic.phase !== selectedPhase) {
-        return false;
-      }
-
-      // Priority Filter
-      if (priorityFilter !== 'all' && topic.priority !== priorityFilter) {
-        return false;
-      }
-
-      // Status Filter
-      if (statusFilter === 'revised' && !isCompleted(topic.id)) {
-        return false;
-      }
-      if (statusFilter === 'unrevised' && isCompleted(topic.id)) {
-        return false;
-      }
-      if (statusFilter === 'bookmarked' && !isBookmarked(topic.id)) {
-        return false;
-      }
-
-      // Category Filter
-      if (categoryFilter !== 'all' && topic.category !== categoryFilter) {
-        return false;
-      }
-
-      // Search Query
-      if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase();
-        const matchesTitle = topic.title.toLowerCase().includes(q);
-        const matchesSubtitle = topic.subtitle?.toLowerCase().includes(q) || false;
-        const matchesGist = topic.theGist.toLowerCase().includes(q);
-        const matchesAnswer = topic.interviewAnswer.toLowerCase().includes(q);
-        const matchesCategory = topic.category.toLowerCase().includes(q);
-        const matchesResume = topic.resumeConnection?.toLowerCase().includes(q) || false;
-
-        return (
-          matchesTitle ||
-          matchesSubtitle ||
-          matchesGist ||
-          matchesAnswer ||
-          matchesCategory ||
-          matchesResume
-        );
-      }
-
-      return true;
-    });
-  }, [selectedPhase, priorityFilter, statusFilter, categoryFilter, searchQuery, isCompleted, isBookmarked]);
-
-  // Group filtered topics by category for organized study
-  const groupedByCategory = useMemo(() => {
-    const map = new Map<string, TopicItem[]>();
-    for (const topic of filteredTopics) {
-      if (!map.has(topic.category)) {
-        map.set(topic.category, []);
-      }
-      map.get(topic.category)!.push(topic);
-    }
-    return Array.from(map.entries());
-  }, [filteredTopics]);
-
-  const currentPhaseMeta = ALL_PHASES.find((p) => p.id === selectedPhase);
+  const percent = ALL_TOPICS.length > 0 ? Math.round((completedCount / ALL_TOPICS.length) * 100) : 0;
   const p0Count = ALL_TOPICS.filter((t) => t.priority === 'P0').length;
-  const p0CompletedCount = ALL_TOPICS.filter((t) => t.priority === 'P0' && isCompleted(t.id)).length;
+  const p0Done = ALL_TOPICS.filter((t) => t.priority === 'P0' && isCompleted(t.id)).length;
 
   return (
-    <div className="min-h-screen bg-[#090a0c] text-neutral-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-[var(--bg-main)] text-[var(--text-main)] flex flex-col font-sans transition-colors">
       {/* Top Navbar */}
       <Navbar
         completedCount={completedCount}
         totalCount={ALL_TOPICS.length}
         onResumeClick={() => setIsResumeOpen(true)}
-        onExportClick={exportBackup}
-        onResetClick={resetAllProgress}
       />
 
-      {/* Main Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8 py-10 sm:py-14 space-y-12">
-        {/* Double-Bezel Hero Banner */}
-        <section className="p-1 rounded-3xl bg-white/[0.02] border border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
-          <div className="bg-[#101215] rounded-[calc(1.5rem-0.25rem)] p-6 sm:p-10">
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
-              <div className="space-y-3 max-w-3xl">
-                <div className="flex items-center gap-2.5">
-                  <span className="w-2 h-2 rounded-full bg-amber-400" />
-                  <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-amber-400 font-semibold">
-                    {currentPhaseMeta ? currentPhaseMeta.badge : 'Comprehensive SDE Syllabus'}
-                  </span>
-                  <span className="text-xs text-neutral-500 font-mono">
-                    {selectedPhase === 'all'
-                      ? `${ALL_PHASES.length} Active Tracks`
-                      : currentPhaseMeta?.shortTitle}
-                  </span>
-                </div>
+      {/* Hero Section */}
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8 py-16 sm:py-24 space-y-20">
+        {/* Hero Header */}
+        <div className="max-w-4xl space-y-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--bg-card)] border border-[var(--border-shell)] text-xs font-mono text-[var(--accent)] font-normal shadow-xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]" />
+            <span>FULL-STACK SDE &amp; AI APPLICATION ENGINEER REVISION</span>
+          </div>
 
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-neutral-100 tracking-tight leading-tight">
-                  {currentPhaseMeta ? currentPhaseMeta.title : 'Full-Stack SDE & AI Application Engineer Revision Drill'}
-                </h2>
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-normal tracking-tight text-[var(--text-main)] leading-[1.15]">
+            The Systematic Technical Revision Engine.
+          </h1>
 
-                <p className="text-sm text-neutral-400 leading-relaxed">
-                  {currentPhaseMeta
-                    ? currentPhaseMeta.description
-                    : 'Systematic revision blueprint grounded in real full-stack ownership: JavaScript runtime, React Fiber internals, low-end device performance, Node.js libuv concurrency, PostgreSQL/MongoDB trade-offs, Flipkart & Probo resume defense stories, and autonomous AI agents.'}
-                </p>
-              </div>
+          <p className="text-base sm:text-lg font-light text-[var(--text-muted)] max-w-2xl leading-relaxed">
+            A distraction-free, stage-wise syllabus designed to rapidly refresh high-level concepts, runtime internals, real-world trade-offs, and your personalized Flipkart &amp; Probo resume stories before interviews.
+          </p>
 
-              {/* Stat Tiles (Double-Bezel) */}
-              <div className="flex items-center gap-4 shrink-0">
-                <div className="p-1 rounded-2xl bg-white/[0.03] border border-white/[0.06]">
-                  <div className="bg-[#14161a] px-5 py-4 rounded-xl text-center min-w-[110px]">
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-500 block">
-                      P0 MUST KNOW
-                    </span>
-                    <span className="text-xl font-mono font-bold text-amber-400 mt-0.5 block">
-                      {p0CompletedCount}/{p0Count}
-                    </span>
-                  </div>
-                </div>
+          {/* Action CTAs */}
+          <div className="flex flex-wrap items-center gap-4 pt-4">
+            <Link
+              href="/drill"
+              className="px-6 py-3 rounded-xl bg-[var(--accent)] hover:opacity-95 text-neutral-950 text-sm font-medium transition-all shadow-sm flex items-center gap-2 group cursor-pointer"
+            >
+              <span>Launch Practice Dashboard</span>
+              <span className="group-hover:translate-x-1 transition-transform">→</span>
+            </Link>
 
-                <div className="p-1 rounded-2xl bg-white/[0.03] border border-white/[0.06]">
-                  <div className="bg-[#14161a] px-5 py-4 rounded-xl text-center min-w-[110px]">
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-500 block">
-                      TOTAL DONE
-                    </span>
-                    <span className="text-xl font-mono font-bold text-emerald-400 mt-0.5 block">
-                      {completedCount}/{ALL_TOPICS.length}
-                    </span>
-                  </div>
-                </div>
-              </div>
+            <button
+              type="button"
+              onClick={() => setIsResumeOpen(true)}
+              className="px-5 py-3 rounded-xl bg-[var(--bg-card)] hover:bg-[var(--bg-card-inner)] border border-[var(--border-shell)] text-sm font-normal text-[var(--text-main)] transition-colors flex items-center gap-2 cursor-pointer shadow-xs"
+            >
+              <span>View Resume Anchors PDF</span>
+              <span className="text-xs text-[var(--accent)] font-mono">↗</span>
+            </button>
+          </div>
+
+          {/* Current Local Progress Card */}
+          <div className="pt-6 flex items-center gap-6 text-xs font-mono text-[var(--text-dim)]">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-400" />
+              <span>{completedCount} of {ALL_TOPICS.length} Topics Completed ({percent}%)</span>
             </div>
+            <div>•</div>
+            <div>{p0Done} of {p0Count} P0 Must-Know Mastered</div>
+          </div>
+        </div>
 
-            {/* Phase 3 Personalized Resume Anchor Callout */}
-            {selectedPhase === 'phase-3-resume' && (
-              <div className="mt-8 pt-6 border-t border-white/[0.06] flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#14171a] p-5 rounded-2xl border border-amber-400/20">
-                <div className="flex items-start gap-3">
-                  <span className="w-2.5 h-2.5 rounded-full bg-amber-400 mt-1 shrink-0" />
-                  <div>
-                    <h4 className="text-xs font-mono font-semibold text-amber-400 uppercase tracking-wider">
-                      Personalized Interview Defense Anchor
-                    </h4>
-                    <p className="text-xs text-neutral-300 mt-0.5 leading-relaxed">
-                      Questions directly probe your Flipkart (PAN verification BFF, live map tracking, proxy inspector) and Probo (L1-L3 approval engine, PostgreSQL indexing) ownership. Keep the PDF open side-by-side to cross-reference while revising.
+        {/* 5 Core Curriculum Tracks */}
+        <section className="space-y-8">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[var(--border-shell)] pb-4">
+            <div>
+              <span className="text-xs font-mono uppercase tracking-[0.2em] text-[var(--accent)] font-medium">
+                Structured Tracks
+              </span>
+              <h2 className="text-2xl font-normal text-[var(--text-main)] tracking-tight mt-1">
+                Five Specialized Preparation Domains
+              </h2>
+            </div>
+            <Link
+              href="/drill"
+              className="text-xs font-mono text-[var(--accent)] hover:underline flex items-center gap-1"
+            >
+              <span>Explore all {ALL_TOPICS.length} topics in Dashboard</span>
+              <span>→</span>
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {ALL_PHASES.map((phase) => {
+              const phaseTopics = ALL_TOPICS.filter((t) => t.phase === phase.id);
+              const phaseCompleted = phaseTopics.filter((t) => isCompleted(t.id)).length;
+              const phasePercent = phaseTopics.length > 0 ? Math.round((phaseCompleted / phaseTopics.length) * 100) : 0;
+
+              return (
+                <div
+                  key={phase.id}
+                  className="rounded-2xl border border-[var(--border-shell)] bg-[var(--bg-card)] p-6 space-y-4 hover:border-[var(--accent)]/40 transition-all flex flex-col justify-between shadow-xs group"
+                >
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-[var(--bg-card-inner)] text-[var(--accent)] border border-[var(--border-inner)]">
+                        {phase.badge}
+                      </span>
+                      <span className="text-xs font-mono text-[var(--text-dim)]">
+                        {phaseTopics.length} topics
+                      </span>
+                    </div>
+
+                    <h3 className="text-lg font-medium text-[var(--text-main)] group-hover:text-[var(--accent)] transition-colors leading-snug">
+                      {phase.title}
+                    </h3>
+
+                    <p className="text-xs font-light text-[var(--text-muted)] leading-relaxed">
+                      {phase.description}
                     </p>
                   </div>
+
+                  {/* Footer & Jump Link */}
+                  <div className="pt-4 border-t border-[var(--border-inner)] flex items-center justify-between">
+                    <span className="text-[11px] font-mono text-[var(--text-dim)]">
+                      {phaseCompleted}/{phaseTopics.length} done ({phasePercent}%)
+                    </span>
+                    <Link
+                      href={`/drill`}
+                      className="text-xs font-mono text-[var(--accent)] hover:underline flex items-center gap-1 font-normal"
+                    >
+                      <span>Drill Track</span>
+                      <span>→</span>
+                    </Link>
+                  </div>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setIsResumeOpen(true)}
-                  className="px-4 py-2 text-xs font-mono font-semibold rounded-xl bg-amber-400 text-neutral-950 hover:bg-amber-300 transition-colors shrink-0 cursor-pointer shadow-sm"
-                >
-                  Open Resume PDF Companion ↗
-                </button>
-              </div>
-            )}
+              );
+            })}
           </div>
         </section>
 
-        {/* Filter & Search Bar */}
-        <FilterBar
-          phases={ALL_PHASES}
-          selectedPhase={selectedPhase}
-          onSelectPhase={(id) => {
-            setSelectedPhase(id);
-            setCategoryFilter('all');
-          }}
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          statusFilter={statusFilter}
-          onStatusFilterChange={setStatusFilter}
-          priorityFilter={priorityFilter}
-          onPriorityFilterChange={setPriorityFilter}
-          categoryFilter={categoryFilter}
-          onCategoryFilterChange={setCategoryFilter}
-          categories={availableCategories}
-          totalResults={filteredTopics.length}
-        />
+        {/* 8-Part Revision Methodology */}
+        <section className="rounded-3xl border border-[var(--border-shell)] bg-[var(--bg-card)] p-8 sm:p-12 space-y-8 shadow-xs">
+          <div className="max-w-2xl space-y-2">
+            <span className="text-xs font-mono uppercase tracking-[0.2em] text-[var(--accent)] font-medium">
+              Revision Architecture
+            </span>
+            <h2 className="text-2xl font-normal text-[var(--text-main)] tracking-tight">
+              Built for Depth, Not Rote Memorization
+            </h2>
+            <p className="text-xs font-light text-[var(--text-muted)] leading-relaxed">
+              Every question is dissected using a proven engineering framework so you can confidently answer and defend architectural choices.
+            </p>
+          </div>
 
-        {/* Topics Drill Sections */}
-        <div className="space-y-12">
-          {filteredTopics.length === 0 ? (
-            <div className="p-1 rounded-3xl bg-white/[0.02] border border-white/[0.06] text-center">
-              <div className="bg-[#101215] rounded-[calc(1.5rem-0.25rem)] py-16 px-6 space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-white/[0.04] border border-white/[0.08] mx-auto flex items-center justify-center text-neutral-400 font-mono text-sm">
-                  0
-                </div>
-                <h3 className="text-lg font-semibold text-neutral-200">
-                  No matching drill topics found
-                </h3>
-                <p className="text-xs text-neutral-500 max-w-sm mx-auto leading-relaxed">
-                  Try clearing your search query or switching your priority and completion status filters.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSearchQuery('');
-                    setStatusFilter('all');
-                    setPriorityFilter('all');
-                    setCategoryFilter('all');
-                  }}
-                  className="px-4 py-2 text-xs font-mono rounded-xl bg-white/[0.04] text-amber-400 border border-white/[0.08] hover:bg-white/[0.08] cursor-pointer transition-colors"
-                >
-                  Reset All Filters
-                </button>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              { num: '01', title: 'The Gist', desc: 'Understand the concept in plain English before terminology.' },
+              { num: '02', title: 'How It Works', desc: 'Internal mental models, call stacks, Fiber nodes, and event loops.' },
+              { num: '03', title: 'Practical Code', desc: 'Real TypeScript, Node.js, SQL, and algorithm implementations with syntax highlighting.' },
+              { num: '04', title: '30–90s Pitch', desc: 'A natural, interview-ready script you can deliver with confidence.' },
+              { num: '05', title: 'Resume Anchor', desc: 'Personalized links to your Flipkart, Probo, and Zarasana ownership.' },
+              { num: '06', title: 'Trade-offs & Gotchas', desc: 'Avoid common misconceptions and know what NOT to do in production.' },
+              { num: '07', title: 'Visual Blueprints', desc: 'Interactive Mermaid diagrams for ER models and UML sequence flows.' },
+              { num: '08', title: 'Curated Readings', desc: 'Direct links to GreatFrontend, ByteByteGo, DDIA, and LangGraph.' },
+            ].map((step) => (
+              <div
+                key={step.num}
+                className="p-5 rounded-2xl bg-[var(--bg-card-inner)] border border-[var(--border-inner)] space-y-2"
+              >
+                <div className="text-xs font-mono text-[var(--accent)] font-medium">{step.num}</div>
+                <h4 className="text-sm font-medium text-[var(--text-main)]">{step.title}</h4>
+                <p className="text-xs font-light text-[var(--text-muted)] leading-relaxed">{step.desc}</p>
               </div>
-            </div>
-          ) : (
-            groupedByCategory.map(([category, topics]) => (
-              <section key={category} className="space-y-4">
-                <div className="flex items-center justify-between border-b border-white/[0.06] pb-3">
-                  <h3 className="text-sm font-mono font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2">
-                    <span className="text-neutral-500">#</span> {category}
-                  </h3>
-                  <span className="text-xs font-mono text-neutral-500">
-                    {topics.filter((t) => isCompleted(t.id)).length} / {topics.length} completed
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-1 gap-4">
-                  {topics.map((topic) => (
-                    <TopicCard
-                      key={topic.id}
-                      topic={topic}
-                      isCompleted={isCompleted(topic.id)}
-                      onToggleCompleted={toggleCompleted}
-                      isBookmarked={isBookmarked(topic.id)}
-                      onToggleBookmarked={toggleBookmarked}
-                      savedNote={notes[topic.id]}
-                      onSaveNote={saveNote}
-                    />
-                  ))}
-                </div>
-              </section>
-            ))
-          )}
-        </div>
-
-        {/* Curated Modern Resources Section */}
-        <CuratedResourcesSection phaseId={selectedPhase as any} />
+            ))}
+          </div>
+        </section>
       </main>
 
       {/* Footer */}
-      <footer className="mt-20 border-t border-white/[0.06] bg-[#0c0d10] py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400" />
-            <span>Progress automatically synchronized in browser local storage.</span>
+      <footer className="border-t border-[var(--border-shell)] bg-[var(--bg-card)] py-8 transition-colors">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--text-dim)] font-light">
+          <div>
+            <span>SDE Revision Drill · Full-Stack &amp; AI Application Engineer</span>
           </div>
-          <div className="font-mono text-[11px] text-neutral-400">
-            Keyboard shortcut: Press <kbd className="px-2 py-0.5 bg-white/[0.04] border border-white/[0.08] rounded text-amber-400">/</kbd> to focus search anywhere.
+          <div className="flex items-center gap-4 font-mono text-[11px]">
+            <Link href="/drill" className="text-[var(--accent)] hover:underline">
+              Enter Practice Dashboard →
+            </Link>
           </div>
         </div>
       </footer>
 
-      {/* Resume Companion Side-Drawer */}
+      {/* Resume Companion Drawer */}
       <ResumeCompanion
         isOpen={isResumeOpen}
         onClose={() => setIsResumeOpen(false)}

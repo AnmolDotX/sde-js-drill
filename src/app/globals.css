@@ -1,22 +1,46 @@
 @import "tailwindcss";
 
-:root {
+:root,
+html.dark,
+[data-theme="dark"] {
   --bg-main: #090a0c;
-  --bg-card: #111316;
-  --bg-card-inner: #16181c;
-  --bg-subtle: #1a1d22;
+  --bg-card: #101215;
+  --bg-card-inner: #15181c;
+  --bg-subtle: #1c1f24;
   --text-main: #f1f5f9;
   --text-muted: #94a3b8;
   --text-dim: #64748b;
   --accent: #f59e0b;
   --accent-light: #fbbf24;
-  --accent-subtle: rgba(245, 158, 11, 0.1);
   --border-shell: rgba(255, 255, 255, 0.08);
   --border-inner: rgba(255, 255, 255, 0.05);
+  --code-bg: #090b0e;
+  --code-header: #121519;
   --success: #10b981;
   --danger: #ef4444;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color-scheme: dark;
+}
+
+html.light,
+[data-theme="light"] {
+  --bg-main: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-card-inner: #f1f5f9;
+  --bg-subtle: #e2e8f0;
+  --text-main: #0f172a;
+  --text-muted: #334155;
+  --text-dim: #64748b;
+  --accent: #d97706;
+  --accent-light: #f59e0b;
+  --border-shell: rgba(15, 23, 42, 0.09);
+  --border-inner: rgba(15, 23, 42, 0.06);
+  --code-bg: #0f172a;
+  --code-header: #1e293b;
+  --success: #059669;
+  --danger: #dc2626;
+  color-scheme: light;
 }
 
 body {
@@ -26,6 +50,7 @@ body {
   min-height: 100vh;
   margin: 0;
   padding: 0;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -36,42 +61,27 @@ body {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #090a0c;
+  background: var(--bg-main);
 }
 ::-webkit-scrollbar-thumb {
-  background: #23272d;
+  background: var(--bg-subtle);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #393f49;
+  background: var(--accent);
 }
 
-/* Prism syntax highlighting theme overrides for dark mode */
-code[class*="language-"],
-pre[class*="language-"] {
-  color: #e2e8f0;
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
-  line-height: 1.6;
-  direction: ltr;
-  text-align: left;
-  white-space: pre;
-  word-spacing: normal;
-  word-break: normal;
-  tab-size: 2;
-  hyphens: none;
-}
-
+/* Prism syntax highlighting theme - High contrast & vibrant colors */
 .token.comment,
 .token.prolog,
 .token.doctype,
 .token.cdata {
-  color: #64748b;
+  color: #64748b !important;
   font-style: italic;
 }
 
 .token.punctuation {
-  color: #94a3b8;
+  color: #94a3b8 !important;
 }
 
 .token.property,
@@ -81,7 +91,7 @@ pre[class*="language-"] {
 .token.constant,
 .token.symbol,
 .token.deleted {
-  color: #f59e0b;
+  color: #f59e0b !important; /* Amber / Numeric / Properties */
 }
 
 .token.selector,
@@ -90,30 +100,30 @@ pre[class*="language-"] {
 .token.char,
 .token.builtin,
 .token.inserted {
-  color: #34d399;
+  color: #34d399 !important; /* Emerald / Strings */
 }
 
 .token.operator,
 .token.entity,
-.token.url,
-.language-css .token.string,
-.style .token.string {
-  color: #38bdf8;
+.token.url {
+  color: #38bdf8 !important; /* Sky Blue / Operators */
 }
 
 .token.atrule,
 .token.attr-value,
 .token.keyword {
-  color: #c084fc;
+  color: #c084fc !important; /* Purple / Language Keywords */
+  font-weight: 500;
 }
 
 .token.function,
 .token.class-name {
-  color: #60a5fa;
+  color: #60a5fa !important; /* Bright Blue / Functions & Methods */
+  font-weight: 500;
 }
 
 .token.regex,
 .token.important,
 .token.variable {
-  color: #fb923c;
+  color: #fb923c !important; /* Coral / Variables */
 }

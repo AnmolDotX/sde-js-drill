@@ -51,12 +51,12 @@ export function FilterBar({
   }, [onSearchChange]);
 
   return (
-    <div className="space-y-5">
-      {/* Search Input Row with Doppelrand Bezel */}
-      <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-3.5">
+    <div className="space-y-4">
+      {/* Search Input Row with Theme Tokens */}
+      <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-3">
         {/* Search Bar */}
         <div className="relative flex-1">
-          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-neutral-500">
+          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[var(--text-dim)]">
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
               <circle cx="11" cy="11" r="8" />
               <line x1="21" y1="21" x2="16.65" y2="16.65" />
@@ -68,13 +68,13 @@ export function FilterBar({
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Search questions, code snippets, Flipkart, Probo, system design... (Press '/' to focus)"
-            className="w-full pl-11 pr-12 py-3 rounded-xl bg-[#121417] border border-white/[0.08] text-sm text-neutral-200 placeholder-neutral-500 focus:border-amber-400/60 focus:bg-[#16181d] focus:outline-none transition-all shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)]"
+            className="w-full pl-11 pr-12 py-3 rounded-xl bg-[var(--bg-card)] border border-[var(--border-shell)] text-sm text-[var(--text-main)] placeholder-[var(--text-dim)] focus:border-[var(--accent)] focus:bg-[var(--bg-card-inner)] focus:outline-none transition-all shadow-xs font-normal"
           />
           {searchQuery && (
             <button
               type="button"
               onClick={() => onSearchChange('')}
-              className="absolute inset-y-0 right-0 pr-4 flex items-center text-xs font-mono text-neutral-500 hover:text-neutral-300 cursor-pointer"
+              className="absolute inset-y-0 right-0 pr-4 flex items-center text-xs font-mono text-[var(--text-dim)] hover:text-[var(--text-main)] cursor-pointer"
             >
               Clear ✕
             </button>
@@ -82,17 +82,17 @@ export function FilterBar({
         </div>
 
         {/* Priority Filter */}
-        <div className="flex items-center gap-1.5 shrink-0 bg-[#121417] p-1 rounded-xl border border-white/[0.06]">
-          <span className="text-[11px] font-mono text-neutral-400 px-2">Priority:</span>
+        <div className="flex items-center gap-1.5 shrink-0 bg-[var(--bg-card)] p-1 rounded-xl border border-[var(--border-shell)]">
+          <span className="text-[11px] font-mono text-[var(--text-dim)] px-2">Priority:</span>
           {(['all', 'P0', 'P1'] as const).map((p) => (
             <button
               key={p}
               type="button"
               onClick={() => onPriorityFilterChange(p)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-colors cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-colors cursor-pointer font-normal ${
                 priorityFilter === p
-                  ? 'bg-amber-400 text-neutral-950 font-semibold'
-                  : 'text-neutral-400 hover:text-neutral-200 hover:bg-white/[0.04]'
+                  ? 'bg-[var(--accent)] text-neutral-950 font-medium'
+                  : 'text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--bg-subtle)]'
               }`}
             >
               {p === 'all' ? 'All' : p}
@@ -101,8 +101,8 @@ export function FilterBar({
         </div>
 
         {/* Status Filter */}
-        <div className="flex items-center gap-1.5 shrink-0 bg-[#121417] p-1 rounded-xl border border-white/[0.06]">
-          <span className="text-[11px] font-mono text-neutral-400 px-2">Status:</span>
+        <div className="flex items-center gap-1.5 shrink-0 bg-[var(--bg-card)] p-1 rounded-xl border border-[var(--border-shell)]">
+          <span className="text-[11px] font-mono text-[var(--text-dim)] px-2">Status:</span>
           {(
             [
               { id: 'all', label: 'All' },
@@ -115,10 +115,10 @@ export function FilterBar({
               key={s.id}
               type="button"
               onClick={() => onStatusFilterChange(s.id)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-colors cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-colors cursor-pointer font-normal ${
                 statusFilter === s.id
-                  ? 'bg-white/[0.08] text-amber-400 font-medium border border-white/[0.08]'
-                  : 'text-neutral-400 hover:text-neutral-200 hover:bg-white/[0.04]'
+                  ? 'bg-[var(--bg-subtle)] text-[var(--accent)] font-medium border border-[var(--border-shell)]'
+                  : 'text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--bg-subtle)]'
               }`}
             >
               {s.label}
@@ -132,10 +132,10 @@ export function FilterBar({
         <button
           type="button"
           onClick={() => onSelectPhase('all')}
-          className={`px-4 py-2 rounded-xl text-xs font-mono whitespace-nowrap transition-all cursor-pointer ${
+          className={`px-4 py-2 rounded-xl text-xs font-mono whitespace-nowrap transition-all cursor-pointer font-normal ${
             selectedPhase === 'all'
-              ? 'bg-amber-400 text-neutral-950 font-bold shadow-md'
-              : 'bg-[#121417] text-neutral-400 hover:text-neutral-200 border border-white/[0.06] hover:border-white/[0.12]'
+              ? 'bg-[var(--accent)] text-neutral-950 font-medium shadow-xs'
+              : 'bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-main)] border border-[var(--border-shell)] hover:border-[var(--accent)]/40'
           }`}
         >
           All Tracks ({totalResults})
@@ -146,13 +146,13 @@ export function FilterBar({
             key={phase.id}
             type="button"
             onClick={() => onSelectPhase(phase.id)}
-            className={`px-4 py-2 rounded-xl text-xs font-mono whitespace-nowrap transition-all flex items-center gap-2 cursor-pointer ${
+            className={`px-4 py-2 rounded-xl text-xs font-mono whitespace-nowrap transition-all flex items-center gap-2 cursor-pointer font-normal ${
               selectedPhase === phase.id
-                ? 'bg-white/[0.08] text-amber-400 font-semibold border border-amber-400/40 shadow-xs'
-                : 'bg-[#121417] text-neutral-400 hover:text-neutral-200 border border-white/[0.06] hover:border-white/[0.12]'
+                ? 'bg-[var(--bg-card)] text-[var(--accent)] font-medium border border-[var(--accent)] shadow-xs'
+                : 'bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-main)] border border-[var(--border-shell)] hover:border-[var(--accent)]/40'
             }`}
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-400/70" />
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]" />
             <span>{phase.shortTitle}</span>
           </button>
         ))}
@@ -160,12 +160,12 @@ export function FilterBar({
 
       {/* Category Dropdown Filter */}
       {categories.length > 0 && (
-        <div className="flex items-center gap-2 text-xs font-mono text-neutral-400">
+        <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-dim)]">
           <span>Filter by Category:</span>
           <select
             value={categoryFilter}
             onChange={(e) => onCategoryFilterChange(e.target.value)}
-            className="bg-[#121417] text-neutral-200 border border-white/[0.08] rounded-lg px-3 py-1.5 text-xs font-mono focus:border-amber-400 focus:outline-none cursor-pointer"
+            className="bg-[var(--bg-card)] text-[var(--text-main)] border border-[var(--border-shell)] rounded-lg px-3 py-1.5 text-xs font-mono focus:border-[var(--accent)] focus:outline-none cursor-pointer font-normal"
           >
             <option value="all">All Categories ({categories.length})</option>
             {categories.map((c) => (

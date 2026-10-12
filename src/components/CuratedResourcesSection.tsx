@@ -35,71 +35,71 @@ export function CuratedResourcesSection({ phaseId }: CuratedResourcesSectionProp
   }
 
   return (
-    <section className="mt-16 pt-10 border-t border-white/[0.08] space-y-8">
+    <section className="mt-14 pt-8 border-t border-[var(--border-shell)] space-y-6">
       {/* Section Header */}
       <div>
-        <div className="flex items-center gap-2 mb-2">
-          <span className="w-2 h-2 rounded-full bg-amber-400" />
-          <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-amber-400 font-semibold">
+        <div className="flex items-center gap-2 mb-1.5">
+          <span className="w-2 h-2 rounded-full bg-[var(--accent)]" />
+          <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-[var(--accent)] font-medium">
             Recommended Reading &amp; Practice
           </span>
         </div>
-        <h3 className="text-xl sm:text-2xl font-bold text-neutral-100 tracking-tight">
+        <h3 className="text-xl sm:text-2xl font-normal text-[var(--text-main)] tracking-tight">
           Curated Industry Resources (Beyond Definitions)
         </h3>
-        <p className="text-xs sm:text-sm text-neutral-400 mt-1 max-w-2xl leading-relaxed">
+        <p className="text-xs sm:text-sm text-[var(--text-muted)] mt-1 font-light max-w-2xl leading-relaxed">
           High-signal modern portals for machine coding, architecture breakdowns, and distributed systems — selected specifically for 3+ years engineering interviews.
         </p>
       </div>
 
       {/* Resource Sections */}
-      <div className="space-y-8">
+      <div className="space-y-6">
         {resources.map((group) => (
-          <div key={group.phaseTitle} className="space-y-4">
-            <h4 className="text-xs font-mono font-bold text-neutral-300 uppercase tracking-wider flex items-center gap-2">
-              <span className="text-amber-400">&gt;</span> {group.phaseTitle}
+          <div key={group.phaseTitle} className="space-y-3">
+            <h4 className="text-xs font-mono font-medium text-[var(--text-main)] uppercase tracking-wider flex items-center gap-2">
+              <span className="text-[var(--accent)]">&gt;</span> {group.phaseTitle}
             </h4>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
               {group.links.map((res) => (
                 <a
                   key={res.url}
                   href={res.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative rounded-2xl border border-white/[0.06] bg-[#121417] p-5 sm:p-6 transition-all duration-300 hover:border-amber-400/40 hover:bg-[#16181c] hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)] flex flex-col justify-between"
+                  className="group relative rounded-2xl border border-[var(--border-shell)] bg-[var(--bg-card)] p-5 transition-all duration-200 hover:border-[var(--accent)]/50 hover:bg-[var(--bg-card-inner)] flex flex-col justify-between shadow-xs"
                 >
                   <div>
                     {/* Top Badges */}
-                    <div className="flex items-center justify-between gap-2 mb-2.5">
-                      <span className="text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full bg-white/[0.04] text-neutral-400 border border-white/[0.06] group-hover:text-amber-400 transition-colors">
+                    <div className="flex items-center justify-between gap-2 mb-2">
+                      <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-[var(--bg-card-inner)] text-[var(--text-muted)] border border-[var(--border-inner)] group-hover:text-[var(--accent)] transition-colors">
                         {res.source}
                       </span>
-                      <span className="text-[10px] font-mono text-amber-400/90 font-medium">
+                      <span className="text-[10px] font-mono text-[var(--accent)] font-normal">
                         {res.badge}
                       </span>
                     </div>
 
                     {/* Title with link arrow */}
-                    <h5 className="text-base font-semibold text-neutral-200 group-hover:text-amber-400 transition-colors flex items-center justify-between">
+                    <h5 className="text-sm sm:text-base font-medium text-[var(--text-main)] group-hover:text-[var(--accent)] transition-colors flex items-center justify-between">
                       <span>{res.title}</span>
-                      <span className="text-neutral-500 group-hover:text-amber-400 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 text-xs font-mono">
+                      <span className="text-[var(--text-dim)] group-hover:text-[var(--accent)] text-xs font-mono">
                         ↗
                       </span>
                     </h5>
 
                     {/* Description */}
-                    <p className="text-xs text-neutral-400 mt-2 leading-relaxed">
+                    <p className="text-xs text-[var(--text-muted)] mt-1.5 font-light leading-relaxed">
                       {res.description}
                     </p>
                   </div>
 
                   {/* Tags */}
-                  <div className="flex flex-wrap gap-1.5 mt-4 pt-3 border-t border-white/[0.04]">
+                  <div className="flex flex-wrap gap-1.5 mt-3.5 pt-2.5 border-t border-[var(--border-inner)]">
                     {res.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="text-[10px] font-mono text-neutral-500 bg-white/[0.02] px-2 py-0.5 rounded border border-white/[0.03]"
+                        className="text-[10px] font-mono text-[var(--text-dim)] bg-[var(--bg-card-inner)] px-1.5 py-0.5 rounded border border-[var(--border-inner)] font-normal"
                       >
                         #{tag}
                       </span>
