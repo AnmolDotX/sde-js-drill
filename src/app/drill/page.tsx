@@ -149,7 +149,35 @@ function DrillDashboardContent() {
   };
 
   const handleToggleExpand = (id: string) => {
-    setExpandedTopicId((prev) => (prev === id ? null : id));
+    if (expandedTopicId === id) {
+      setExpandedTopicId(null);
+      return;
+    }
+
+    const targetEl = document.getElementById(`topic-${id}`);
+    const rectBefore = targetEl ? targetEl.getBoundingClientRect().top : null;
+
+    setExpandedTopicId(id);
+
+    // Keep the clicked accordion stably anchored on screen while preceding items collapse
+    if (targetEl && rectBefore !== null) {
+      const targetTop = Math.max(84, rectBefore);
+
+      const anchorCard = () => {
+        const currentTop = targetEl.getBoundingClientRect().top;
+        const diff = currentTop - targetTop;
+        if (Math.abs(diff) > 1.5) {
+          window.scrollBy({ top: diff, behavior: 'instant' });
+        }
+      };
+
+      requestAnimationFrame(anchorCard);
+      const interval = setInterval(anchorCard, 16);
+      setTimeout(() => {
+        clearInterval(interval);
+        anchorCard();
+      }, 380);
+    }
   };
 
   const currentPhaseMeta = activePhases.find((p) => p.id === selectedPhase);

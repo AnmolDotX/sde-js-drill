@@ -60,7 +60,7 @@ export function TopicCard({
   return (
     <article
       id={`topic-${topic.id}`}
-      className={`scroll-mt-4 rounded-2xl transition-all duration-200 border border-[var(--border-inner)] shadow-[var(--card-shadow)] [content-visibility:auto] [contain-intrinsic-size:0_105px] ${
+      className={`scroll-mt-24 rounded-2xl transition-all duration-200 border border-[var(--border-inner)] shadow-[var(--card-shadow)] [content-visibility:auto] [contain-intrinsic-size:0_105px] ${
         isFocused ? 'bg-[var(--bg-card-inner)] shadow-sm' : ''
       } ${
         isCompleted
